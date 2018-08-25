@@ -1,0 +1,23 @@
+{
+  "name": "n2",
+  "version": "0.0.1",
+  "description": "A 2D Physics Engine in JavaScript",
+  "main": "build/N2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archibate/N2.js.git"
+  },
+  "keywords": [
+    "physics",
+    "canvas"
+  ],
+  "author": "Peng Yubin <207773419@qq.com> (https://archibate.github.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/archibate/N2.js/issues"
+  },
+  "homepage": "https://github.com/archibate/N2.js#readme"
+}
