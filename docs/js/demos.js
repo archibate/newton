@@ -35,7 +35,7 @@ new Demo
 		mass: 0,
 		position: new N2.Vec2(200, 300),
 		velocity: new N2.Vec2(0, 0),
-		rotation: -Math.PI/2 + Math.PI/44,
+		rotation: -Math.PI/2 + Math.PI/48,
 		angularVelocity: 0,
 		size: new N2.Vec2(30, 400),
 	});
@@ -80,7 +80,8 @@ new Demo
 			position: new N2.Vec2(p.x, p.y),
 			velocity: N2.polarCCW(Math.random() * Math.PI * 2)
 				    .multiply(Math.random() * 260),
-			angularVelocity: Math.PI/10,
+			rotation: Math.PI * 2 * Math.random(),
+			angularVelocity: Math.PI * Math.random(),
 			r: 20,
 		}));
 	}.bind(this);

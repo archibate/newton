@@ -191,7 +191,7 @@ N2.AABB = Class.extend({
 			);
 	},
 });
-N2.DefaultGravity = new N2.Vec2(0, 80);
+N2.DefaultGravity = new N2.Vec2(0, 300);
 
 N2.Body = Class.extend({
 
