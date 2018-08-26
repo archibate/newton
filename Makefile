@@ -6,7 +6,9 @@ SRCS=N2.node-head.js \
      Collide.js Render.js \
      N2.node-tail.js
 
-all: build/N2.min.js build/N2.js
+init-docs: build/N2.min.js build/N2.js
+	@echo ' *' init-docs
+	$Vcp $^ docs/js/
 
 clean:
 	@echo ' -' build/*
