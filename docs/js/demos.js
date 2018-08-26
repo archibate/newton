@@ -162,7 +162,7 @@ var vm = new Vue({
 for (var i in demos) {
 	demos[i].render = new N2.Render('#canvas-' + i);
 	demos[i].init();
-	//pause(i);
+	pause(i);
 }
 
 })();
