@@ -11,4 +11,4 @@
 		lastTime = currTime;
 		return id;
 	};
-}());
+})();

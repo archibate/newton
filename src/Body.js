@@ -8,6 +8,7 @@ N2.Body = Class.extend({
 		this.velocity = new N2.Vec2(0, 0);
 		this.rotation = 0;
 		this.angularVelocity = 0;
+		this.invRotationalInertia = 0;
 
 		for (var key in option) {
 			if (option.hasOwnProperty(key)
@@ -27,21 +28,23 @@ N2.Body = Class.extend({
 
 	applyImpulse: function(impulse, point) {
 		var rA = point.clone().sub(this.position);
+		this.angularVelocity += rA.cross(impulse) * this.invRotationalInertia;
 		this.velocity.addOfMultiplied(impulse, this.invMass);
-		this.angularVelocity += this.invRotationalInertia * rA.cross(impulse);
-		/*if (rA.x != 0 || rA.y != 0) {
-			var nv = rA.clone().normalize();
-			var tangent = new N2.Vec2(nv.y, -nv.x);
+	},
 
-			this.velocity.addOfMultiplied(nv, nv.dot(impulse) * this.invMass);
+	getSCAAt: function(p, n)
+	{
+		// SCA := (rA^n)**2 / J + 1 / M
+		var rA = p.clone().sub(this.position);
+		var rCn = rA.cross(n);
+		return rCn * rCn * this.invRotationalInertia + this.invMass;
+	},
 
-			var tni = tangent.multiply(tangent.dot(impulse));
-			this.velocity.addOfMultiplied(tni, this.invMass);
-
-			this.angularVelocity += rA.cross(tni) * this.invRotationInertia;
-		} else {
-			this.velocity.addOfMultiplied(impulse, this.invMass);
-		}*/
+	getVelocityAt: function(p)
+	{
+		var rA = p.clone().sub(this.position);
+		var rv = rA.rotatedCCW().multiply(this.angularVelocity);
+		return rv.add(this.velocity);
 	},
 	
 	intergrateVelocity: function(dt) {

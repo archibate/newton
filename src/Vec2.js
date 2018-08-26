@@ -23,19 +23,25 @@ N2.Vec2 = Class.extend({
 		this.y = v.y;
 		return this;
 	},
+	rotatedCCW: function() {
+		return new N2.Vec2(-this.y, this.x);
+	},
+	rotatedCW: function() {
+		return new N2.Vec2(this.y, -this.x);
+	},
 	add: function(v) {
 		this.x += v.x;
 		this.y += v.y;
 		return this;
 	},
-	addOfMultiplied: function(v, f) {
-		this.x += v.x * f;
-		this.y += v.y * f;
-		return this;
-	},
 	sub: function(v) {
 		this.x -= v.x;
 		this.y -= v.y;
+		return this;
+	},
+	addOfMultiplied: function(v, f) {
+		this.x += v.x * f;
+		this.y += v.y * f;
 		return this;
 	},
 	subOfMultiplied: function(v, f) {
@@ -52,7 +58,7 @@ N2.Vec2 = Class.extend({
 		return this.x * v.x + this.y * v.y;
 	},
 	cross: function(v) {
-		return this.x * v.y + this.y * v.x;
+		return this.x * v.y - this.y * v.x;
 	},
 	angle: function(v) {
 		return Math.acos(this.dot(v) / (this.length() * v.length()));
@@ -61,3 +67,11 @@ N2.Vec2 = Class.extend({
 		return this.x * x + this.y * y;
 	},
 });
+
+N2.polarCCW = function(angle) {
+	return new N2.Vec2(Math.cos(angle), Math.sin(angle));
+};
+
+N2.polarCW = function(angle) {
+	return new N2.Vec2(Math.cos(angle),-Math.sin(angle));
+};

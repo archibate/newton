@@ -1,13 +1,22 @@
 var world = new N2.World();
 
-var box = new N2.Rect({
+var b1 = new N2.Rect({
 	mass: 1,
-	position: new N2.Vec2(100, 100),
+	position: new N2.Vec2(100, 160),
 	velocity: new N2.Vec2(0, 0),
 	angularVelocity: Math.PI/10,
 	size: new N2.Vec2(70, 30),
 });
-world.add(box);
+world.add(b1);
+var b2 = new N2.Rect({
+	mass: 0,
+	position: new N2.Vec2(200, 300),
+	velocity: new N2.Vec2(0, 0),
+	rotation: -Math.PI/2,
+	angularVelocity: 0,
+	size: new N2.Vec2(30, 400),
+});
+world.add(b2);
 
 function createBall(p) {
 	world.add(new N2.Circle({
@@ -29,16 +38,25 @@ function getMousePos(e) {
 
 var render = new N2.Render('#ourCanvas');
 
+var last_p;
 render.canvas.addEventListener('click', function(e) {
-	box.applyImpulse(new N2.Vec2(200,-250),
-		new N2.Vec2(box.position.x-10,box.position.y-10));
-	createBall(getMousePos(e));
+	var p = getMousePos(e);
+	p = new N2.Vec2(p.x, p.y);
+	if (last_p) {
+		b1.applyImpulse(p.sub(last_p), last_p);
+		last_p = undefined;
+	} else {
+		last_p = p;
+	}
 }, false);
 
 world.onTick(function() {
 	render.clear();
 
-	render.rect(box.position.x, box.position.y, box.size.x, box.size.y, box.rotation);
+	render.rect(b1.position.x, b1.position.y, b1.size.x, b1.size.y, b1.rotation);
+	render.rect(b2.position.x, b2.position.y, b2.size.x, b2.size.y, b2.rotation);
+
+	N2.Collide.react_Vertiable_NormableStatic(b1, b2);
 
 	for (var i in world.bodies) {
 		var c = world.bodies[i];

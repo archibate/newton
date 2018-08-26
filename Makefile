@@ -1,8 +1,9 @@
 V=@
 
 SRCS=N2.node-head.js \
-     Class.js Vec2.js World.js Ticker.js Body.js \
-     Circle.js Rect.js Render.js \
+     Class.js Vec2.js World.js Ticker.js \
+     AABB.js Body.js Circle.js Rect.js \
+     Collide.js Render.js \
      N2.node-tail.js
 
 all: build/N2.min.js build/N2.js

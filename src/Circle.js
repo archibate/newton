@@ -4,6 +4,6 @@ N2.Circle = N2.Body.extend({
 		this._super(option);
 		this.r = option.r;
 		this.rSqr = this.r * this.r;
-		this.invRotationalInteria = 2 / (this.mass * this.rSqr);
+		this.invRotationalInteria = 2 * this.invMass / this.rSqr;
 	},
 });
