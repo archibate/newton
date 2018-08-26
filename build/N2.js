@@ -1,3 +1,7 @@
+/*!
+ * N2.js v0.0.1
+ * (c) 2018 Peng Yubin
+ */
 (function(global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ?
 		module.exports = factory() :
@@ -117,13 +121,19 @@ N2.World = Class.extend({
 		this.bodies = [];
 		this.timeStep = 1/60;
 		this.onTicks = [];
+		this.ticker = new N2.Ticker();
 	},
 
 	start: function() {
-		N2.Ticker(function(dt) {
+		this.timer = this.ticker.start(function(dt) {
 			this.tick(dt);
-			this.start(dt);
+			this.start();
 		}.bind(this), this.timeStep);
+	},
+
+	pause: function() {
+		this.ticker.pause(this.timer);
+		this.timer = undefined;
 	},
 
 	tick: function(dt) {
@@ -144,20 +154,27 @@ N2.World = Class.extend({
 		this.onTicks.push(callback);
 	},
 });
-(function() {
-	var lastTime = 0;
-	N2.Ticker = function(callback, timeStep) {
+N2.Ticker = Class.extend({
+	ctor: function() {
+		this.lastTime = 0;
+	},
+
+	start: function(callback, timeStep) {
 		var currTime = new Date().getTime();
-		var timeToCall = Math.max(0,
-			timeStep * 1000 - (currTime - lastTime));
-		currTime += timeToCall;
+		var timeToCall = timeStep * 1000 - currTime + this.lastTime;
+		currTime += Math.max(0, timeToCall);
 		var id = window.setTimeout(function() {
 			callback(timeStep);
 		}, timeToCall);
-		lastTime = currTime;
+		this.lastTime = currTime;
 		return id;
-	};
-})();
+	},
+
+	pause: function(id)
+	{
+		window.clearTimeout(id);
+	},
+});
 N2.AABB = Class.extend({
 
 	ctor: function(l, t, r, b) {

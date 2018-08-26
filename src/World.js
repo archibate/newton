@@ -4,13 +4,19 @@ N2.World = Class.extend({
 		this.bodies = [];
 		this.timeStep = 1/60;
 		this.onTicks = [];
+		this.ticker = new N2.Ticker();
 	},
 
 	start: function() {
-		N2.Ticker(function(dt) {
+		this.timer = this.ticker.start(function(dt) {
 			this.tick(dt);
-			this.start(dt);
+			this.start();
 		}.bind(this), this.timeStep);
+	},
+
+	pause: function() {
+		this.ticker.pause(this.timer);
+		this.timer = undefined;
 	},
 
 	tick: function(dt) {

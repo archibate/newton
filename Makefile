@@ -1,6 +1,6 @@
 V=@
 
-SRCS=N2.node-head.js \
+SRCS=N2.version.js N2.node-head.js \
      Class.js Vec2.js World.js Ticker.js \
      AABB.js Body.js Circle.js Rect.js \
      Collide.js Render.js \

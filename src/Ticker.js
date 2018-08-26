@@ -1,14 +1,21 @@
-(function() {
-	var lastTime = 0;
-	N2.Ticker = function(callback, timeStep) {
+N2.Ticker = Class.extend({
+	ctor: function() {
+		this.lastTime = 0;
+	},
+
+	start: function(callback, timeStep) {
 		var currTime = new Date().getTime();
-		var timeToCall = Math.max(0,
-			timeStep * 1000 - (currTime - lastTime));
-		currTime += timeToCall;
+		var timeToCall = timeStep * 1000 - currTime + this.lastTime;
+		currTime += Math.max(0, timeToCall);
 		var id = window.setTimeout(function() {
 			callback(timeStep);
 		}, timeToCall);
-		lastTime = currTime;
+		this.lastTime = currTime;
 		return id;
-	};
-})();
+	},
+
+	pause: function(id)
+	{
+		window.clearTimeout(id);
+	},
+});
