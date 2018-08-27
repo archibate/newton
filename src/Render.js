@@ -1,15 +1,31 @@
-N2.Render = Class.extend({
-
-	ctor: function (selector) {
+/**
+ * The class used to render objects on canvas.
+ */
+class Render {
+	/**
+	 * Create a render instance.
+	 * @param {string} selector - The query selector.
+	 */
+	constructor(selector) {
 		this.canvas = document.querySelector(selector);
-		this.ctx = this.canvas.getContext("2d");
-	},
+		this.ctx = this.canvas.getContext('2d');
+	}
 
-	clear: function() {
+	/**
+	 * Clear the canvas.
+	 */
+	clear() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
+	}
 
-	circle: function(x, y, r, rotation) {
+	/**
+	 * Draw a circle.
+	 * @param {number} x - The x cooridate of center.
+	 * @param {number} y - The y cooridate of center.
+	 * @param {number} r - The radius of the circle.
+	 * @param {number} rotation - The rotated angle of the circle.
+	 */
+	circle(x, y, r, rotation) {
 		this.ctx.save();
 		this.ctx.beginPath();
 		this.ctx.setTransform(Math.cos(rotation), Math.sin(rotation),
@@ -20,9 +36,17 @@ N2.Render = Class.extend({
 		this.ctx.arc(0, 0, 3, 0, 2 * Math.PI, false);
 		this.ctx.stroke();
 		this.ctx.restore();
-	},
+	}
 
-	rect: function(x, y, w, h, rotation) {
+	/**
+	 * Draw a rectangle.
+	 * @param {number} x - The x cooridate of center.
+	 * @param {number} y - The y cooridate of center.
+	 * @param {number} w - The width of the rectangle.
+	 * @param {number} h - The height of the rectangle.
+	 * @param {number} rotation - The rotated angle of the rectangle.
+	 */
+	rect(x, y, w, h, rotation) {
 		this.ctx.save();
 		this.ctx.beginPath();
 		this.ctx.setTransform(Math.cos(rotation), Math.sin(rotation),
@@ -37,4 +61,6 @@ N2.Render = Class.extend({
 		this.ctx.stroke();
 		this.ctx.restore();
 	}
-});
+}
+
+exports.Render = Render;

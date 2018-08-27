@@ -1,9 +1,11 @@
-N2.Body = Class.extend({
-
-	ctor: function(option) {
-		this.position = new N2.Vec2(0, 0);
+/**
+ * Class representing a rigid body.
+ */
+class Body {
+	constructor(option) {
+		this.position = new Vec2(0, 0);
 		this.mass = 0;
-		this.velocity = new N2.Vec2(0, 0);
+		this.velocity = new Vec2(0, 0);
 		this.rotation = 0;
 		this.angularVelocity = 0;
 		this.invRotationalInertia = 0;
@@ -15,51 +17,62 @@ N2.Body = Class.extend({
 			}
 		}
 
-		this.force = N2.Vec2(0, 0);
+		this.force = new Vec2(0, 0);
 
 		if (this.mass != 0) {
 			this.invMass = 1 / this.mass;
 		} else {
 			this.invMass = 0;
 		}
-	},
+	}
 
-	applyImpulse: function(impulse, point) {
+	/**
+	 * Apply an impulse on a specific point.
+	 * @param {Vec2} impulse - the impulse vector.
+	 * @param {Vec2} point - the point it acts.
+	 */
+	applyImpulse(impulse, point) {
 		var rA = point.clone().sub(this.position);
 		this.angularVelocity += rA.cross(impulse) * this.invRotationalInertia;
 		this.velocity.addOfMultiplied(impulse, this.invMass);
-	},
+	}
 
-	getSCAAt: function(p, n)
+	getSCAAt(p, n)
 	{
 		// SCA := (rA^n)**2 / J + 1 / M
 		var rA = p.clone().sub(this.position);
 		var rCn = rA.cross(n);
 		return rCn * rCn * this.invRotationalInertia + this.invMass;
-	},
+	}
 
-	getVelocityAt: function(p)
+	getVelocityAt(p)
 	{
 		var rA = p.clone().sub(this.position);
 		var rv = rA.rotatedCCW().multiply(this.angularVelocity);
 		return rv.add(this.velocity);
-	},
+	}
 	
-	intergrateVelocity: function(dt) {
+	intergrateVelocity(dt) {
 		this.velocity.add(this.force.clone().multiply(this.invMass * dt));
-	},
+	}
 	
-	intergratePosition: function(dt) {
+	intergratePosition(dt) {
 		this.position.add(this.velocity.clone().multiply(dt));
-	},
+	}
 	
-	intergrateRotation: function(dt) {
+	intergrateRotation(dt) {
 		this.rotation += this.angularVelocity * dt;
-	},
+	}
 
-	tick: function(dt) {
+	/**
+	 * Timer tick callback.
+	 * @param {number} dt - Time passed.
+	 */
+	tick(dt) {
 		this.intergrateVelocity(dt);
 		this.intergratePosition(dt);
 		this.intergrateRotation(dt);
-	},
-});
+	}
+}
+
+exports.Body = Body;

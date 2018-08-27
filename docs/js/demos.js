@@ -15,14 +15,14 @@ function getMousePos(e) {
 	}
 }
 
-var Demo = N2.World.extend({
-	ctor: function(name, brief, init) {
-		this._super();
+class Demo extends N2.World {
+	constructor(name, brief, init) {
+		super();
 		this.name = name;
 		this.brief = brief;
 		this.init = init;
-	},
-});
+	}
+}
 
 var demos_f = [
 ////begin

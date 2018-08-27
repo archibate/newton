@@ -4,4 +4,4 @@
 		typeof define === 'function' && define.amd ?
 		define(factory) : (global.N2 = factory());
 })(this, (function () {
-	var N2 = {};
+	var exports = {};

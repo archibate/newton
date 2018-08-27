@@ -1,11 +1,14 @@
-N2.World = Class.extend({
-
-	ctor: function(option) {
+/**
+ * Class representing a World.
+ * Contain multiple, variable of bodies.
+ */
+class World {
+	constructor(option) {
 		this.bodies = [];
 		this.timeStep = 1/60;
 		this.onTicks = [];
-		this.ticker = new N2.Ticker();
-		this.gravity = new N2.Vec2(0, 300);
+		this.ticker = new Ticker();
+		this.gravity = new Vec2(0, 300);
 
 		option |= {};
 		for (var key in option) {
@@ -14,22 +17,32 @@ N2.World = Class.extend({
 				this[key] = option[key];
 			}
 		}
-	},
+	}
 
-	start: function() {
+	/**
+	 * Start acting the world by time.
+	 */
+	start() {
 		this.timer = this.ticker.timeout(function(dt) {
 			this.tick(dt);
 			if (this.timer)
 				this.start();
 		}.bind(this), this.timeStep);
-	},
+	}
 
-	pause: function() {
-		this.ticker.pause(this.timer);
+	/**
+	 * Pause the world.
+	 */
+	pause() {
+		this.ticker.cancel(this.timer);
 		this.timer = undefined;
-	},
+	}
 
-	tick: function(dt) {
+	/**
+	 * Timer tick callback.
+	 * @param {number} dt - Time passed.
+	 */
+	tick(dt) {
 		for (var k in this.bodies) {
 			var body = this.bodies[k];
 			body.tick(dt);
@@ -37,14 +50,24 @@ N2.World = Class.extend({
 		for (var i in this.onTicks) {
 			this.onTicks[i](dt);
 		}
-	},
+	}
 
-	add: function(body) {
+	/**
+	 * Add a body to the current world.
+	 * @param {Body} body - The body to add.
+	 */
+	add(body) {
 		body.force = this.gravity.clone().multiply(body.mass);
 		this.bodies.push(body);
-	},
+	}
 
-	onTick: function(callback) {
+	/**
+	 * Set timer tick callback.
+	 * @param {function} callback - Called on an timer tick().
+	 */
+	onTick(callback) {
 		this.onTicks.push(callback);
-	},
-});
+	}
+}
+
+exports.World = World;

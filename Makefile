@@ -1,14 +1,23 @@
 V=@
 
 SRCS=N2.version.js N2.node-head.js \
-     Class.js Vec2.js World.js Ticker.js \
+     Vec2.js World.js Ticker.js \
      AABB.js Body.js Circle.js Rect.js \
      Collide.js Render.js \
      N2.node-tail.js
 
-init-docs: build/N2.min.js build/N2.js
-	@echo ' *' init-docs
+all: built-js docs/API.html
+
+built-js: build/N2.js build/N2.min.js
 	$Vcp $^ docs/js/
+
+docs/API.html: docs/API.md
+	@echo ' +' $@
+	$Vmarked docs/API.md > docs/API.html
+
+docs/API.md: build/N2.js
+	@echo ' +' $@
+	$Vjsdoc2md build/N2.js > docs/API.md
 
 clean:
 	@echo ' -' build/*
