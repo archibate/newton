@@ -5,3 +5,7 @@
 		define(factory) : (global.N2 = factory());
 })(this, (function () {
 	var exports = {};
+	/**
+	 * N2.js, a 2d rigid-body physics engine written in javascript ES6.
+	 * @module
+	 */

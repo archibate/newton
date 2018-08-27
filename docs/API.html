@@ -1,62 +1,89 @@
-<h2 id="classes">Classes</h2>
-<dl>
-<dt><a href="#Vec2">Vec2</a></dt>
-<dd><p>Class representing a (2d) vector, and a point.</p>
-</dd>
-<dt><a href="#World">World</a></dt>
-<dd><p>Class representing a World.
-Contain multiple, variable of bodies.</p>
-</dd>
-<dt><a href="#Ticker">Ticker</a></dt>
-<dd><p>Class to control timer ticks.</p>
-</dd>
-<dt><a href="#AABB">AABB</a></dt>
-<dd><p>Class representing an AABB box.
-Use for pre-collision detect. (uncompleted)</p>
-</dd>
-<dt><a href="#Body">Body</a></dt>
-<dd><p>Class representing a rigid body.</p>
-</dd>
-<dt><a href="#Circle">Circle</a> ⇐ <code><a href="#Body">Body</a></code></dt>
-<dd><p>A kind of rigid-body: a circle (i.e. 2d ball).</p>
-</dd>
-<dt><a href="#Rect">Rect</a> ⇐ <code><a href="#Body">Body</a></code></dt>
-<dd><p>A kind of rigid-body: a rectangle.</p>
-</dd>
-<dt><a href="#Render">Render</a></dt>
-<dd><p>The class used to render objects on canvas.</p>
-</dd>
-</dl>
-
-<p><a name="Vec2"></a></p>
-<h2 id="vec2">Vec2</h2>
-<p>Class representing a (2d) vector, and a point.</p>
-<p><strong>Kind</strong>: global class  </p>
+<p><a name="module_N2"></a></p>
+<h2 id="n2">N2</h2>
+<p>N2.js, a 2d rigid-body physics engine written in javascript ES6.</p>
 <ul>
-<li><a href="#Vec2">Vec2</a><ul>
-<li><a href="#new_Vec2_new">new Vec2(x, y)</a></li>
-<li><a href="#Vec2+clone">.clone()</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+lengthSqr">.lengthSqr()</a> ⇒ <code>number</code></li>
-<li><a href="#Vec2+length">.length()</a> ⇒ <code>number</code></li>
-<li><a href="#Vec2+normalize">.normalize()</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+assign">.assign()</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+rotatedCCW">.rotatedCCW()</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+rotatedCW">.rotatedCW()</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+add">.add(v)</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+sub">.sub(v)</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+addOfMultiplied">.addOfMultiplied(v, f)</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+subOfMultiplied">.subOfMultiplied(v, f)</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+multiply">.multiply(f)</a> ⇒ <a href="#Vec2"><code>Vec2</code></a></li>
-<li><a href="#Vec2+dot">.dot(v)</a> ⇒ <code>number</code></li>
-<li><a href="#Vec2+cross">.cross(v)</a> ⇒ <code>number</code></li>
-<li><a href="#Vec2+angle">.angle(v)</a> ⇒ <code>number</code></li>
-<li><a href="#Vec2+distanceSqr">.distanceSqr(v)</a> ⇒ <code>number</code></li>
-<li><a href="#Vec2+distance">.distance(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2">N2</a><ul>
+<li><a href="#module_N2..Vec2">~Vec2</a><ul>
+<li><a href="#new_module_N2..Vec2_new">new Vec2(x, y)</a></li>
+<li><a href="#module_N2..Vec2+clone">.clone()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+lengthSqr">.lengthSqr()</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+length">.length()</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+normalize">.normalize()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+assign">.assign()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+rotatedCCW">.rotatedCCW()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+rotatedCW">.rotatedCW()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+add">.add(v)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+sub">.sub(v)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+addOfMultiplied">.addOfMultiplied(v, f)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+subOfMultiplied">.subOfMultiplied(v, f)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+multiply">.multiply(f)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+dot">.dot(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+cross">.cross(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+angle">.angle(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+distanceSqr">.distanceSqr(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+distance">.distance(v)</a> ⇒ <code>number</code></li>
+</ul>
+</li>
+<li><a href="#module_N2..World">~World</a><ul>
+<li><a href="#module_N2..World+start">.start()</a></li>
+<li><a href="#module_N2..World+pause">.pause()</a></li>
+<li><a href="#module_N2..World+tick">.tick(dt)</a></li>
+<li><a href="#module_N2..World+add">.add(body)</a></li>
+<li><a href="#module_N2..World+onTick">.onTick(callback)</a></li>
+</ul>
+</li>
+<li><a href="#module_N2..Ticker">~Ticker</a><ul>
+<li><a href="#module_N2..Ticker+timeout">.timeout(callback, timeStep)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Ticker+cancel">.cancel(The)</a></li>
+</ul>
+</li>
+<li><a href="#module_N2..AABB">~AABB</a></li>
+<li><a href="#module_N2..Body">~Body</a><ul>
+<li><a href="#module_N2..Body+applyImpulse">.applyImpulse(impulse, point)</a></li>
+<li><a href="#module_N2..Body+tick">.tick(dt)</a></li>
+</ul>
+</li>
+<li><a href="#module_N2..Circle">~Circle</a> ⇐ <code>Body</code></li>
+<li><a href="#module_N2..Rect">~Rect</a> ⇐ <code>Body</code></li>
+<li><a href="#module_N2..Render">~Render</a><ul>
+<li><a href="#new_module_N2..Render_new">new Render(selector)</a></li>
+<li><a href="#module_N2..Render+clear">.clear()</a></li>
+<li><a href="#module_N2..Render+circle">.circle(x, y, r, rotation)</a></li>
+<li><a href="#module_N2..Render+rect">.rect(x, y, w, h, rotation)</a></li>
 </ul>
 </li>
 </ul>
-<p><a name="new_Vec2_new"></a></p>
-<h3 id="new-vec2-x-y-">new Vec2(x, y)</h3>
+</li>
+</ul>
+<p><a name="module_N2..Vec2"></a></p>
+<h3 id="n2-vec2">N2~Vec2</h3>
+<p>Class representing a (2d) vector, and a point.</p>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a>  </p>
+<ul>
+<li><a href="#module_N2..Vec2">~Vec2</a><ul>
+<li><a href="#new_module_N2..Vec2_new">new Vec2(x, y)</a></li>
+<li><a href="#module_N2..Vec2+clone">.clone()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+lengthSqr">.lengthSqr()</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+length">.length()</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+normalize">.normalize()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+assign">.assign()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+rotatedCCW">.rotatedCCW()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+rotatedCW">.rotatedCW()</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+add">.add(v)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+sub">.sub(v)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+addOfMultiplied">.addOfMultiplied(v, f)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+subOfMultiplied">.subOfMultiplied(v, f)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+multiply">.multiply(f)</a> ⇒ <code>Vec2</code></li>
+<li><a href="#module_N2..Vec2+dot">.dot(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+cross">.cross(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+angle">.angle(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+distanceSqr">.distanceSqr(v)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Vec2+distance">.distance(v)</a> ⇒ <code>number</code></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_module_N2..Vec2_new"></a></p>
+<h4 id="new-vec2-x-y-">new Vec2(x, y)</h4>
 <p>Create a vector.</p>
 <table>
 <thead>
@@ -79,29 +106,29 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+clone"></a></p>
-<h3 id="vec2-clone-code-vec2-code-">vec2.clone() ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><a name="module_N2..Vec2+clone"></a></p>
+<h4 id="vec2-clone-code-vec2-code-">vec2.clone() ⇒ <code>Vec2</code></h4>
 <p>Clone this vector a new instance.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - The cloned vector.<br><a name="Vec2+lengthSqr"></a></p>
-<h3 id="vec2-lengthsqr-code-number-code-">vec2.lengthSqr() ⇒ <code>number</code></h3>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The squared length.<br><a name="Vec2+length"></a></p>
-<h3 id="vec2-length-code-number-code-">vec2.length() ⇒ <code>number</code></h3>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The length of vector.<br><a name="Vec2+normalize"></a></p>
-<h3 id="vec2-normalize-code-vec2-code-">vec2.normalize() ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - The cloned vector.<br><a name="module_N2..Vec2+lengthSqr"></a></p>
+<h4 id="vec2-lengthsqr-code-number-code-">vec2.lengthSqr() ⇒ <code>number</code></h4>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The squared length.<br><a name="module_N2..Vec2+length"></a></p>
+<h4 id="vec2-length-code-number-code-">vec2.length() ⇒ <code>number</code></h4>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The length of vector.<br><a name="module_N2..Vec2+normalize"></a></p>
+<h4 id="vec2-normalize-code-vec2-code-">vec2.normalize() ⇒ <code>Vec2</code></h4>
 <p>Normalize the vector.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.<br><a name="Vec2+assign"></a></p>
-<h3 id="vec2-assign-code-vec2-code-">vec2.assign() ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.<br><a name="module_N2..Vec2+assign"></a></p>
+<h4 id="vec2-assign-code-vec2-code-">vec2.assign() ⇒ <code>Vec2</code></h4>
 <p>Assign with another vector.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.<br><a name="Vec2+rotatedCCW"></a></p>
-<h3 id="vec2-rotatedccw-code-vec2-code-">vec2.rotatedCCW() ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.<br><a name="module_N2..Vec2+rotatedCCW"></a></p>
+<h4 id="vec2-rotatedccw-code-vec2-code-">vec2.rotatedCCW() ⇒ <code>Vec2</code></h4>
 <p>rotate counter clock wise with 90 degrees.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Rotated result.<br><a name="Vec2+rotatedCW"></a></p>
-<h3 id="vec2-rotatedcw-code-vec2-code-">vec2.rotatedCW() ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Rotated result.<br><a name="module_N2..Vec2+rotatedCW"></a></p>
+<h4 id="vec2-rotatedcw-code-vec2-code-">vec2.rotatedCW() ⇒ <code>Vec2</code></h4>
 <p>rotate clock wise with 90 degrees.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Rotated result.<br><a name="Vec2+add"></a></p>
-<h3 id="vec2-add-v-code-vec2-code-">vec2.add(v) ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Rotated result.<br><a name="module_N2..Vec2+add"></a></p>
+<h4 id="vec2-add-v-code-vec2-code-">vec2.add(v) ⇒ <code>Vec2</code></h4>
 <p>Add another vector to this.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.  </p>
 <table>
 <thead>
 <tr>
@@ -113,15 +140,15 @@ Use for pre-collision detect. (uncompleted)</p>
 <tbody>
 <tr>
 <td>v</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
+<td><code>Vec2</code></td>
 <td>another vector.</td>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+sub"></a></p>
-<h3 id="vec2-sub-v-code-vec2-code-">vec2.sub(v) ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><a name="module_N2..Vec2+sub"></a></p>
+<h4 id="vec2-sub-v-code-vec2-code-">vec2.sub(v) ⇒ <code>Vec2</code></h4>
 <p>Subtract another vector from this.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.  </p>
 <table>
 <thead>
 <tr>
@@ -133,15 +160,15 @@ Use for pre-collision detect. (uncompleted)</p>
 <tbody>
 <tr>
 <td>v</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
+<td><code>Vec2</code></td>
 <td>another vector.</td>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+addOfMultiplied"></a></p>
-<h3 id="vec2-addofmultiplied-v-f-code-vec2-code-">vec2.addOfMultiplied(v, f) ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><a name="module_N2..Vec2+addOfMultiplied"></a></p>
+<h4 id="vec2-addofmultiplied-v-f-code-vec2-code-">vec2.addOfMultiplied(v, f) ⇒ <code>Vec2</code></h4>
 <p>Same as this.add(v.multiply(f)).</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.  </p>
 <table>
 <thead>
 <tr>
@@ -153,7 +180,7 @@ Use for pre-collision detect. (uncompleted)</p>
 <tbody>
 <tr>
 <td>v</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
+<td><code>Vec2</code></td>
 <td>another vector.</td>
 </tr>
 <tr>
@@ -163,10 +190,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+subOfMultiplied"></a></p>
-<h3 id="vec2-subofmultiplied-v-f-code-vec2-code-">vec2.subOfMultiplied(v, f) ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><a name="module_N2..Vec2+subOfMultiplied"></a></p>
+<h4 id="vec2-subofmultiplied-v-f-code-vec2-code-">vec2.subOfMultiplied(v, f) ⇒ <code>Vec2</code></h4>
 <p>Same as this.sub(v.multiply(f)).</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.  </p>
 <table>
 <thead>
 <tr>
@@ -178,7 +205,7 @@ Use for pre-collision detect. (uncompleted)</p>
 <tbody>
 <tr>
 <td>v</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
+<td><code>Vec2</code></td>
 <td>another vector.</td>
 </tr>
 <tr>
@@ -188,10 +215,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+multiply"></a></p>
-<h3 id="vec2-multiply-f-code-vec2-code-">vec2.multiply(f) ⇒ <a href="#Vec2"><code>Vec2</code></a></h3>
+<p><a name="module_N2..Vec2+multiply"></a></p>
+<h4 id="vec2-multiply-f-code-vec2-code-">vec2.multiply(f) ⇒ <code>Vec2</code></h4>
 <p>Multiply a scalar to this vector.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <a href="#Vec2"><code>Vec2</code></a> - Instance of this.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>Vec2</code> - Instance of this.  </p>
 <table>
 <thead>
 <tr>
@@ -208,10 +235,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+dot"></a></p>
-<h3 id="vec2-dot-v-code-number-code-">vec2.dot(v) ⇒ <code>number</code></h3>
+<p><a name="module_N2..Vec2+dot"></a></p>
+<h4 id="vec2-dot-v-code-number-code-">vec2.dot(v) ⇒ <code>number</code></h4>
 <p>Calculate the dot product with another vector.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The dot product.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The dot product.  </p>
 <table>
 <thead>
 <tr>
@@ -228,10 +255,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+cross"></a></p>
-<h3 id="vec2-cross-v-code-number-code-">vec2.cross(v) ⇒ <code>number</code></h3>
+<p><a name="module_N2..Vec2+cross"></a></p>
+<h4 id="vec2-cross-v-code-number-code-">vec2.cross(v) ⇒ <code>number</code></h4>
 <p>Calculate the (2d) cross product with another vector.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The (2d) cross product.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The (2d) cross product.  </p>
 <table>
 <thead>
 <tr>
@@ -248,10 +275,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+angle"></a></p>
-<h3 id="vec2-angle-v-code-number-code-">vec2.angle(v) ⇒ <code>number</code></h3>
+<p><a name="module_N2..Vec2+angle"></a></p>
+<h4 id="vec2-angle-v-code-number-code-">vec2.angle(v) ⇒ <code>number</code></h4>
 <p>Calculate the angle between this and another vector.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The angle between them.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The angle between them.  </p>
 <table>
 <thead>
 <tr>
@@ -268,10 +295,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+distanceSqr"></a></p>
-<h3 id="vec2-distancesqr-v-code-number-code-">vec2.distanceSqr(v) ⇒ <code>number</code></h3>
+<p><a name="module_N2..Vec2+distanceSqr"></a></p>
+<h4 id="vec2-distancesqr-v-code-number-code-">vec2.distanceSqr(v) ⇒ <code>number</code></h4>
 <p>Calculate the squared distance between two point (i.e. vector).</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The squared distance.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The squared distance.  </p>
 <table>
 <thead>
 <tr>
@@ -288,10 +315,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Vec2+distance"></a></p>
-<h3 id="vec2-distance-v-code-number-code-">vec2.distance(v) ⇒ <code>number</code></h3>
+<p><a name="module_N2..Vec2+distance"></a></p>
+<h4 id="vec2-distance-v-code-number-code-">vec2.distance(v) ⇒ <code>number</code></h4>
 <p>Calculate the distance between two point (i.e. vector).</p>
-<p><strong>Kind</strong>: instance method of <a href="#Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The distance between them.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Vec2"><code>Vec2</code></a><br><strong>Returns</strong>: <code>number</code> - The distance between them.  </p>
 <table>
 <thead>
 <tr>
@@ -308,31 +335,31 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="World"></a></p>
-<h2 id="world">World</h2>
+<p><a name="module_N2..World"></a></p>
+<h3 id="n2-world">N2~World</h3>
 <p>Class representing a World.
 Contain multiple, variable of bodies.</p>
-<p><strong>Kind</strong>: global class  </p>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a>  </p>
 <ul>
-<li><a href="#World">World</a><ul>
-<li><a href="#World+start">.start()</a></li>
-<li><a href="#World+pause">.pause()</a></li>
-<li><a href="#World+tick">.tick(dt)</a></li>
-<li><a href="#World+add">.add(body)</a></li>
-<li><a href="#World+onTick">.onTick(callback)</a></li>
+<li><a href="#module_N2..World">~World</a><ul>
+<li><a href="#module_N2..World+start">.start()</a></li>
+<li><a href="#module_N2..World+pause">.pause()</a></li>
+<li><a href="#module_N2..World+tick">.tick(dt)</a></li>
+<li><a href="#module_N2..World+add">.add(body)</a></li>
+<li><a href="#module_N2..World+onTick">.onTick(callback)</a></li>
 </ul>
 </li>
 </ul>
-<p><a name="World+start"></a></p>
-<h3 id="world-start-">world.start()</h3>
+<p><a name="module_N2..World+start"></a></p>
+<h4 id="world-start-">world.start()</h4>
 <p>Start acting the world by time.</p>
-<p><strong>Kind</strong>: instance method of <a href="#World"><code>World</code></a><br><a name="World+pause"></a></p>
-<h3 id="world-pause-">world.pause()</h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..World"><code>World</code></a><br><a name="module_N2..World+pause"></a></p>
+<h4 id="world-pause-">world.pause()</h4>
 <p>Pause the world.</p>
-<p><strong>Kind</strong>: instance method of <a href="#World"><code>World</code></a><br><a name="World+tick"></a></p>
-<h3 id="world-tick-dt-">world.tick(dt)</h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..World"><code>World</code></a><br><a name="module_N2..World+tick"></a></p>
+<h4 id="world-tick-dt-">world.tick(dt)</h4>
 <p>Timer tick callback.</p>
-<p><strong>Kind</strong>: instance method of <a href="#World"><code>World</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..World"><code>World</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -349,10 +376,10 @@ Contain multiple, variable of bodies.</p>
 </tr>
 </tbody>
 </table>
-<p><a name="World+add"></a></p>
-<h3 id="world-add-body-">world.add(body)</h3>
+<p><a name="module_N2..World+add"></a></p>
+<h4 id="world-add-body-">world.add(body)</h4>
 <p>Add a body to the current world.</p>
-<p><strong>Kind</strong>: instance method of <a href="#World"><code>World</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..World"><code>World</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -364,15 +391,15 @@ Contain multiple, variable of bodies.</p>
 <tbody>
 <tr>
 <td>body</td>
-<td><a href="#Body"><code>Body</code></a></td>
+<td><code>Body</code></td>
 <td>The body to add.</td>
 </tr>
 </tbody>
 </table>
-<p><a name="World+onTick"></a></p>
-<h3 id="world-ontick-callback-">world.onTick(callback)</h3>
+<p><a name="module_N2..World+onTick"></a></p>
+<h4 id="world-ontick-callback-">world.onTick(callback)</h4>
 <p>Set timer tick callback.</p>
-<p><strong>Kind</strong>: instance method of <a href="#World"><code>World</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..World"><code>World</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -389,21 +416,21 @@ Contain multiple, variable of bodies.</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Ticker"></a></p>
-<h2 id="ticker">Ticker</h2>
+<p><a name="module_N2..Ticker"></a></p>
+<h3 id="n2-ticker">N2~Ticker</h3>
 <p>Class to control timer ticks.</p>
-<p><strong>Kind</strong>: global class  </p>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a>  </p>
 <ul>
-<li><a href="#Ticker">Ticker</a><ul>
-<li><a href="#Ticker+timeout">.timeout(callback, timeStep)</a> ⇒ <code>number</code></li>
-<li><a href="#Ticker+cancel">.cancel(The)</a></li>
+<li><a href="#module_N2..Ticker">~Ticker</a><ul>
+<li><a href="#module_N2..Ticker+timeout">.timeout(callback, timeStep)</a> ⇒ <code>number</code></li>
+<li><a href="#module_N2..Ticker+cancel">.cancel(The)</a></li>
 </ul>
 </li>
 </ul>
-<p><a name="Ticker+timeout"></a></p>
-<h3 id="ticker-timeout-callback-timestep-code-number-code-">ticker.timeout(callback, timeStep) ⇒ <code>number</code></h3>
+<p><a name="module_N2..Ticker+timeout"></a></p>
+<h4 id="ticker-timeout-callback-timestep-code-number-code-">ticker.timeout(callback, timeStep) ⇒ <code>number</code></h4>
 <p>Set a timeout callback.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Ticker"><code>Ticker</code></a><br><strong>Returns</strong>: <code>number</code> - The timer id.  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Ticker"><code>Ticker</code></a><br><strong>Returns</strong>: <code>number</code> - The timer id.  </p>
 <table>
 <thead>
 <tr>
@@ -425,10 +452,10 @@ Contain multiple, variable of bodies.</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Ticker+cancel"></a></p>
-<h3 id="ticker-cancel-the-">ticker.cancel(The)</h3>
+<p><a name="module_N2..Ticker+cancel"></a></p>
+<h4 id="ticker-cancel-the-">ticker.cancel(The)</h4>
 <p>Cancel the given timer.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Ticker"><code>Ticker</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Ticker"><code>Ticker</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -445,25 +472,25 @@ Contain multiple, variable of bodies.</p>
 </tr>
 </tbody>
 </table>
-<p><a name="AABB"></a></p>
-<h2 id="aabb">AABB</h2>
+<p><a name="module_N2..AABB"></a></p>
+<h3 id="n2-aabb">N2~AABB</h3>
 <p>Class representing an AABB box.
 Use for pre-collision detect. (uncompleted)</p>
-<p><strong>Kind</strong>: global class<br><a name="Body"></a></p>
-<h2 id="body">Body</h2>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a><br><a name="module_N2..Body"></a></p>
+<h3 id="n2-body">N2~Body</h3>
 <p>Class representing a rigid body.</p>
-<p><strong>Kind</strong>: global class  </p>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a>  </p>
 <ul>
-<li><a href="#Body">Body</a><ul>
-<li><a href="#Body+applyImpulse">.applyImpulse(impulse, point)</a></li>
-<li><a href="#Body+tick">.tick(dt)</a></li>
+<li><a href="#module_N2..Body">~Body</a><ul>
+<li><a href="#module_N2..Body+applyImpulse">.applyImpulse(impulse, point)</a></li>
+<li><a href="#module_N2..Body+tick">.tick(dt)</a></li>
 </ul>
 </li>
 </ul>
-<p><a name="Body+applyImpulse"></a></p>
-<h3 id="body-applyimpulse-impulse-point-">body.applyImpulse(impulse, point)</h3>
+<p><a name="module_N2..Body+applyImpulse"></a></p>
+<h4 id="body-applyimpulse-impulse-point-">body.applyImpulse(impulse, point)</h4>
 <p>Apply an impulse on a specific point.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Body"><code>Body</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Body"><code>Body</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -475,20 +502,20 @@ Use for pre-collision detect. (uncompleted)</p>
 <tbody>
 <tr>
 <td>impulse</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
+<td><code>Vec2</code></td>
 <td>the impulse vector.</td>
 </tr>
 <tr>
 <td>point</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
+<td><code>Vec2</code></td>
 <td>the point it acts.</td>
 </tr>
 </tbody>
 </table>
-<p><a name="Body+tick"></a></p>
-<h3 id="body-tick-dt-">body.tick(dt)</h3>
+<p><a name="module_N2..Body+tick"></a></p>
+<h4 id="body-tick-dt-">body.tick(dt)</h4>
 <p>Timer tick callback.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Body"><code>Body</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Body"><code>Body</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -505,133 +532,27 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Circle"></a></p>
-<h2 id="circle-code-body-code-">Circle ⇐ <a href="#Body"><code>Body</code></a></h2>
+<p><a name="module_N2..Circle"></a></p>
+<h3 id="n2-circle-code-body-code-">N2~Circle ⇐ <code>Body</code></h3>
 <p>A kind of rigid-body: a circle (i.e. 2d ball).</p>
-<p><strong>Kind</strong>: global class<br><strong>Extends</strong>: <a href="#Body"><code>Body</code></a>  </p>
-<ul>
-<li><a href="#Circle">Circle</a> ⇐ <a href="#Body"><code>Body</code></a><ul>
-<li><a href="#Body+applyImpulse">.applyImpulse(impulse, point)</a></li>
-<li><a href="#Body+tick">.tick(dt)</a></li>
-</ul>
-</li>
-</ul>
-<p><a name="Body+applyImpulse"></a></p>
-<h3 id="circle-applyimpulse-impulse-point-">circle.applyImpulse(impulse, point)</h3>
-<p>Apply an impulse on a specific point.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Circle"><code>Circle</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>impulse</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
-<td>the impulse vector.</td>
-</tr>
-<tr>
-<td>point</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
-<td>the point it acts.</td>
-</tr>
-</tbody>
-</table>
-<p><a name="Body+tick"></a></p>
-<h3 id="circle-tick-dt-">circle.tick(dt)</h3>
-<p>Timer tick callback.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Circle"><code>Circle</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>dt</td>
-<td><code>number</code></td>
-<td>Time passed.</td>
-</tr>
-</tbody>
-</table>
-<p><a name="Rect"></a></p>
-<h2 id="rect-code-body-code-">Rect ⇐ <a href="#Body"><code>Body</code></a></h2>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a><br><strong>Extends</strong>: <code>Body</code><br><a name="module_N2..Rect"></a></p>
+<h3 id="n2-rect-code-body-code-">N2~Rect ⇐ <code>Body</code></h3>
 <p>A kind of rigid-body: a rectangle.</p>
-<p><strong>Kind</strong>: global class<br><strong>Extends</strong>: <a href="#Body"><code>Body</code></a>  </p>
-<ul>
-<li><a href="#Rect">Rect</a> ⇐ <a href="#Body"><code>Body</code></a><ul>
-<li><a href="#Body+applyImpulse">.applyImpulse(impulse, point)</a></li>
-<li><a href="#Body+tick">.tick(dt)</a></li>
-</ul>
-</li>
-</ul>
-<p><a name="Body+applyImpulse"></a></p>
-<h3 id="rect-applyimpulse-impulse-point-">rect.applyImpulse(impulse, point)</h3>
-<p>Apply an impulse on a specific point.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Rect"><code>Rect</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>impulse</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
-<td>the impulse vector.</td>
-</tr>
-<tr>
-<td>point</td>
-<td><a href="#Vec2"><code>Vec2</code></a></td>
-<td>the point it acts.</td>
-</tr>
-</tbody>
-</table>
-<p><a name="Body+tick"></a></p>
-<h3 id="rect-tick-dt-">rect.tick(dt)</h3>
-<p>Timer tick callback.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Rect"><code>Rect</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>dt</td>
-<td><code>number</code></td>
-<td>Time passed.</td>
-</tr>
-</tbody>
-</table>
-<p><a name="Render"></a></p>
-<h2 id="render">Render</h2>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a><br><strong>Extends</strong>: <code>Body</code><br><a name="module_N2..Render"></a></p>
+<h3 id="n2-render">N2~Render</h3>
 <p>The class used to render objects on canvas.</p>
-<p><strong>Kind</strong>: global class  </p>
+<p><strong>Kind</strong>: inner class of <a href="#module_N2"><code>N2</code></a>  </p>
 <ul>
-<li><a href="#Render">Render</a><ul>
-<li><a href="#new_Render_new">new Render(selector)</a></li>
-<li><a href="#Render+clear">.clear()</a></li>
-<li><a href="#Render+circle">.circle(x, y, r, rotation)</a></li>
-<li><a href="#Render+rect">.rect(x, y, w, h, rotation)</a></li>
+<li><a href="#module_N2..Render">~Render</a><ul>
+<li><a href="#new_module_N2..Render_new">new Render(selector)</a></li>
+<li><a href="#module_N2..Render+clear">.clear()</a></li>
+<li><a href="#module_N2..Render+circle">.circle(x, y, r, rotation)</a></li>
+<li><a href="#module_N2..Render+rect">.rect(x, y, w, h, rotation)</a></li>
 </ul>
 </li>
 </ul>
-<p><a name="new_Render_new"></a></p>
-<h3 id="new-render-selector-">new Render(selector)</h3>
+<p><a name="new_module_N2..Render_new"></a></p>
+<h4 id="new-render-selector-">new Render(selector)</h4>
 <p>Create a render instance.</p>
 <table>
 <thead>
@@ -649,13 +570,13 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Render+clear"></a></p>
-<h3 id="render-clear-">render.clear()</h3>
+<p><a name="module_N2..Render+clear"></a></p>
+<h4 id="render-clear-">render.clear()</h4>
 <p>Clear the canvas.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Render"><code>Render</code></a><br><a name="Render+circle"></a></p>
-<h3 id="render-circle-x-y-r-rotation-">render.circle(x, y, r, rotation)</h3>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Render"><code>Render</code></a><br><a name="module_N2..Render+circle"></a></p>
+<h4 id="render-circle-x-y-r-rotation-">render.circle(x, y, r, rotation)</h4>
 <p>Draw a circle.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Render"><code>Render</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Render"><code>Render</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -687,10 +608,10 @@ Use for pre-collision detect. (uncompleted)</p>
 </tr>
 </tbody>
 </table>
-<p><a name="Render+rect"></a></p>
-<h3 id="render-rect-x-y-w-h-rotation-">render.rect(x, y, w, h, rotation)</h3>
+<p><a name="module_N2..Render+rect"></a></p>
+<h4 id="render-rect-x-y-w-h-rotation-">render.rect(x, y, w, h, rotation)</h4>
 <p>Draw a rectangle.</p>
-<p><strong>Kind</strong>: instance method of <a href="#Render"><code>Render</code></a>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#module_N2..Render"><code>Render</code></a>  </p>
 <table>
 <thead>
 <tr>

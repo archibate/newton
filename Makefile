@@ -25,7 +25,8 @@ clean:
 
 build/N2.min.js: build/N2.js
 	@echo ' +' $@
-	$Vtools/jsmin.exe < $< | cat src/N2.version.js - > $@
+	$V(tools/jsmin.exe < $< > /tmp/$$$$; cat src/N2.version.js; \
+	   tail -n `wc -l /tmp/$$$$ | awk '{print $1}'` < /tmp/$$$$) > $@
 
 build/N2.js: $(SRCS:%=src/%)
 	@echo ' +' $@
