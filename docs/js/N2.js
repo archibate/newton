@@ -1,7 +1,3 @@
-/*!
- * N2.js v0.0.1
- * (c) 2018 Peng Yubin
- */
 (function(global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ?
 		module.exports = factory() :
@@ -9,10 +5,10 @@
 		define(factory) : (global.N2 = factory());
 })(this, (function () {
 	var exports = {};
-	/**
-	 * N2.js, a 2d rigid-body physics engine written in javascript ES6.
-	 * @module
-	 */
+/**
+ * N2.js, a 2d rigid-body physics engine written in javascript ES6.
+ * @module
+ */
 /**
  * Class representing a (2d) vector, and a point.
  */

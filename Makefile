@@ -1,23 +1,20 @@
 V=@
 
-SRCS=N2.version.js N2.node-head.js \
-     Vec2.js World.js Ticker.js \
-     AABB.js Body.js Circle.js Rect.js \
-     Collide.js Render.js \
-     N2.node-tail.js
+OSRCS=N2.js \
+      Vec2.js World.js Ticker.js \
+      AABB.js Body.js Circle.js Rect.js \
+      Collide.js Render.js
 
-all: built-js docs/API.html
+SRCS=$(OSRCS:%=src/%)
+
+all: built-js docs/docs
 
 built-js: build/N2.js build/N2.min.js
 	$Vcp $^ docs/js/
 
-docs/API.html: docs/API.md
+docs/docs: $(SRCS)
 	@echo ' +' $@
-	$Vmarked docs/API.md > docs/API.html
-
-docs/API.md: build/N2.js
-	@echo ' +' $@
-	$Vjsdoc2md build/N2.js > docs/API.md
+	$Vjsdoc $^ -d $@
 
 clean:
 	@echo ' -' build/*
@@ -25,11 +22,11 @@ clean:
 
 build/N2.min.js: build/N2.js
 	@echo ' +' $@
-	$V(tools/jsmin.exe < $< > /tmp/$$$$; cat src/N2.version.js; \
+	$V(tools/jsmin.exe < $< > /tmp/$$$$; cat COPYING.js; \
 	   tail -n `wc -l /tmp/$$$$ | awk '{print $1}'` < /tmp/$$$$) > $@
 
-build/N2.js: $(SRCS:%=src/%)
+build/N2.js: $(SRCS)
 	@echo ' +' $@
-	$Vcat $^ > $@
+	$Vcat node-head.js $^ node-tail.js > $@
 
 .PHONY: all clean
