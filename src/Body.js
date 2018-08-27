@@ -1,5 +1,3 @@
-N2.DefaultGravity = new N2.Vec2(0, 300);
-
 N2.Body = Class.extend({
 
 	ctor: function(option) {
@@ -17,7 +15,7 @@ N2.Body = Class.extend({
 			}
 		}
 
-		this.force = N2.DefaultGravity.clone().multiply(this.mass);
+		this.force = N2.Vec2(0, 0);
 
 		if (this.mass != 0) {
 			this.invMass = 1 / this.mass;

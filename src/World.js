@@ -1,10 +1,19 @@
 N2.World = Class.extend({
 
-	ctor: function() {
+	ctor: function(option) {
 		this.bodies = [];
 		this.timeStep = 1/60;
 		this.onTicks = [];
 		this.ticker = new N2.Ticker();
+		this.gravity = new N2.Vec2(0, 300);
+
+		option |= {};
+		for (var key in option) {
+			if (option.hasOwnProperty(key)
+				&& this.hasOwnProperty(key)) {
+				this[key] = option[key];
+			}
+		}
 	},
 
 	start: function() {
@@ -31,6 +40,7 @@ N2.World = Class.extend({
 	},
 
 	add: function(body) {
+		body.force = this.gravity.clone().multiply(body.mass);
 		this.bodies.push(body);
 	},
 

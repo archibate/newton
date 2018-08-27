@@ -1,11 +1,18 @@
 (function() {
 
 function getMousePos(e) {
-	var rect = e.srcElement.getBoundingClientRect();
-	return {
-		x: e.clientX - rect.left,
-		y: e.clientY - rect.top,
-	};
+	if (e.layerX && e.layerY) {
+		return {
+			x: e.layerX,
+			y: e.layerY,
+		};
+	} else {
+		var rect = e.srcElement.getBoundingClientRect();
+		return {
+			x: e.clientX - rect.left,
+			y: e.clientY - rect.top,
+		};
+	}
 }
 
 var Demo = N2.World.extend({
@@ -40,14 +47,6 @@ function(){return new Demo
 		size: new N2.Vec2(30, 400),
 	});
 	this.add(b2);
-
-	function getMousePos(e) {
-		var rect = e.srcElement.getBoundingClientRect();
-		return {
-			x: e.clientX - rect.left,
-			y: e.clientY - rect.top,
-		};
-	}
 
 	var last_p;
 	this.render.canvas.addEventListener('click', function(e) {
@@ -95,6 +94,11 @@ function(){return new Demo
 		createBall(getMousePos(e));
 	}, false);
 
+	/*var decay_vel = 0.95;
+	var decay_angvel = 0.9;*/
+	var decay_vel = 1.00;
+	var decay_angvel = 1.0;
+
 	this.onTick(function() {
 		this.render.clear();
 
@@ -105,34 +109,41 @@ function(){return new Demo
 			var minV = 10;
 
 			if (c.position.y - c.r < 0) {
-				c.velocity.y *= -0.95;
-				c.angularVelocity *= 0.9;
+				c.velocity.y *= -decay_vel;
+				c.angularVelocity *= decay_angvel;
 				c.position.y = c.r;
 			}
 			if (c.position.y + c.r > this.render.canvas.height) {
-				c.velocity.y *= -0.95;
-				c.angularVelocity *= 0.9;
+				c.velocity.y *= -decay_vel;
+				c.angularVelocity *= decay_angvel;
 				c.position.y = this.render.canvas.height - c.r;
 			}
 
 			if (c.position.x + c.r > this.render.canvas.width) {
-				c.velocity.x *= -0.95;
-				c.angularVelocity *= 0.9;
+				c.velocity.x *= -decay_vel;
+				c.angularVelocity *= decay_angvel;
 				c.position.x = this.render.canvas.width - c.r;
 			}
 			if (c.position.x - c.r < 0) {
-				c.velocity.x *= -0.95;
-				c.angularVelocity *= 0.9;
+				c.velocity.x *= -decay_vel;
+				c.angularVelocity *= decay_angvel;
 				c.position.x = c.r;
 			}
 
 			if (Math.round(c.position.y + c.r) == this.render.canvas.height
 				&& Math.abs(c.velocity.y) < minV) {
 				c.velocity.y = 0;
-				c.velocity.x *= 0.95;
+				c.velocity.x *= decay_vel;
 			}
 			if (Math.abs(c.velocity.x) < minV) {
 				c.velocity.x = 0;
+			}
+
+			for (var j in this.bodies) {
+				if (j >= i)
+					break;
+				var d = this.bodies[j];
+				N2.Collide.react_Circle_Circle(c, d);
 			}
 		}
 	}.bind(this));

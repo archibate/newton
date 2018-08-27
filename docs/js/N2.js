@@ -117,11 +117,20 @@ N2.polarCW = function(angle) {
 };
 N2.World = Class.extend({
 
-	ctor: function() {
+	ctor: function(option) {
 		this.bodies = [];
 		this.timeStep = 1/60;
 		this.onTicks = [];
 		this.ticker = new N2.Ticker();
+		this.gravity = new N2.Vec2(0, 300);
+
+		option |= {};
+		for (var key in option) {
+			if (option.hasOwnProperty(key)
+				&& this.hasOwnProperty(key)) {
+				this[key] = option[key];
+			}
+		}
 	},
 
 	start: function() {
@@ -148,6 +157,7 @@ N2.World = Class.extend({
 	},
 
 	add: function(body) {
+		body.force = this.gravity.clone().multiply(body.mass);
 		this.bodies.push(body);
 	},
 
@@ -192,8 +202,6 @@ N2.AABB = Class.extend({
 			);
 	},
 });
-N2.DefaultGravity = new N2.Vec2(0, 300);
-
 N2.Body = Class.extend({
 
 	ctor: function(option) {
@@ -211,7 +219,7 @@ N2.Body = Class.extend({
 			}
 		}
 
-		this.force = N2.DefaultGravity.clone().multiply(this.mass);
+		this.force = N2.Vec2(0, 0);
 
 		if (this.mass != 0) {
 			this.invMass = 1 / this.mass;
@@ -311,6 +319,23 @@ N2.Rect = N2.Body.extend({
 });
 (function() {
 	N2.Collide = {
+		react_Circle_Circle: function(a, b)
+		{
+			var d = b.position.clone().sub(a.position);
+			var distance = d.length();
+			if (distance <= a.r + b.r) {
+				var rdis = 1 / distance;
+				var v = b.velocity.clone().sub(a.velocity);
+				var von = v.dot(d) * rdis / v.length();
+				if (von <= 0) {
+					v.multiply(von);
+					b.applyImpulse(v.clone().multiply(a.mass),
+						d.clone().multiply(-b.r * rdis).add(b.position));
+					a.applyImpulse(v.multiply(-b.mass),
+						d.multiply(a.r * rdis).add(a.position));
+				}
+			}
+		},
 		react_Vertiable_NormableStatic: function(a, b)
 		{
 			var vertices = a.getVertices();
