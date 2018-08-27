@@ -1,3 +1,6 @@
+/**
+ * Collision functions
+ */
 exports.Collide = {
 	/**
 	 * Collide Circle vs Circle

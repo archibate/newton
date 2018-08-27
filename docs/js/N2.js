@@ -455,6 +455,9 @@ class Rect extends Body {
 }
 
 exports.Rect = Rect;
+/**
+ * Collision functions
+ */
 exports.Collide = {
 	/**
 	 * Collide Circle vs Circle
