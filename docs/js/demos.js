@@ -17,9 +17,9 @@ var Demo = N2.World.extend({
 	},
 });
 
-var demos = [
+var demos_f = [
 ////begin
-new Demo
+function(){return new Demo
 ( 'Drop Box'
 , 'How about to drop a box onto a surface?'
 , function() {
@@ -69,8 +69,8 @@ new Demo
 
 		N2.Collide.react_Vertiable_NormableStatic(b1, b2);
 	}.bind(this));
-}),
-new Demo
+});},
+function(){return new Demo
 ( 'Drop Balls'
 , 'How cool it will be to drop some balls on screen with mouse!'
 , function() {
@@ -136,9 +136,13 @@ new Demo
 			}
 		}
 	}.bind(this));
-}),
+});},
 ////end
 ];
+
+var demos = demos_f.map(function(f) {
+	return f();
+});
 
 function pause(i) {
 	if (!demos[i].timer) {
@@ -150,20 +154,31 @@ function pause(i) {
 	}
 }
 
+function reset(i) {
+	var was_running = demos[i].timer;
+	if (was_running)
+		demos[i].pause();
+	demos[i] = demos_f[i]();
+	demos[i].render = new N2.Render('#canvas-' + i);
+	demos[i].init();
+	demos[i].tick(0);
+	if (was_running)
+		demos[i].start();
+}
+
 var vm = new Vue({
-	el: '#container',
+	el: '#demos',
 	data: {
 		demos: demos,
 	},
 	methods: {
 		pause: pause,
+		reset: reset,
 	},
 });
 
 for (var i in demos) {
-	demos[i].render = new N2.Render('#canvas-' + i);
-	demos[i].init();
-	pause(i);
+	reset(i);
 }
 
 })();

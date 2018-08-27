@@ -125,9 +125,10 @@ N2.World = Class.extend({
 	},
 
 	start: function() {
-		this.timer = this.ticker.start(function(dt) {
+		this.timer = this.ticker.timeout(function(dt) {
 			this.tick(dt);
-			this.start();
+			if (this.timer)
+				this.start();
 		}.bind(this), this.timeStep);
 	},
 
@@ -159,7 +160,7 @@ N2.Ticker = Class.extend({
 		this.lastTime = 0;
 	},
 
-	start: function(callback, timeStep) {
+	timeout: function(callback, timeStep) {
 		var currTime = new Date().getTime();
 		var timeToCall = timeStep * 1000 - currTime + this.lastTime;
 		currTime += Math.max(0, timeToCall);
@@ -330,8 +331,8 @@ N2.Rect = N2.Body.extend({
 				// [(rA^n)**2 / J + 1 / M] |I| == -(rA^n * w + v.n)
 				// |I| == -(rA^n * w + v.n) / [(rA^n)**2 / J + 1 / M]
 				// throughts above all by original
-				var k = 1.9; // 1: full sticky, 2: full bounce, must 1<=k<=2
-				var rsca = -k / a.getSCAAt(point, n);
+				var k = 0.9; // 0: full sticky, 1: full bounce, must 0<=k<=1
+				var rsca = -(1+k) / a.getSCAAt(point, n);
 				var imp = a.getVelocityAt(point).dot(n) * rsca;
 				if (imp < 0)
 					continue;
