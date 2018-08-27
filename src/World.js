@@ -8,9 +8,10 @@ N2.World = Class.extend({
 	},
 
 	start: function() {
-		this.timer = this.ticker.start(function(dt) {
+		this.timer = this.ticker.timeout(function(dt) {
 			this.tick(dt);
-			this.start();
+			if (this.timer)
+				this.start();
 		}.bind(this), this.timeStep);
 	},
 

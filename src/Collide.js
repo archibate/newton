@@ -20,8 +20,8 @@
 				// [(rA^n)**2 / J + 1 / M] |I| == -(rA^n * w + v.n)
 				// |I| == -(rA^n * w + v.n) / [(rA^n)**2 / J + 1 / M]
 				// throughts above all by original
-				var k = 1.9; // 1: full sticky, 2: full bounce, must 1<=k<=2
-				var rsca = -k / a.getSCAAt(point, n);
+				var k = 0.9; // 0: full sticky, 1: full bounce, must 0<=k<=1
+				var rsca = -(1+k) / a.getSCAAt(point, n);
 				var imp = a.getVelocityAt(point).dot(n) * rsca;
 				if (imp < 0)
 					continue;

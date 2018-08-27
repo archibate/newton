@@ -43,22 +43,25 @@ canvas {
 		<div id="cdns">
 			<h1>Download & CDNs</h1>
 
-			<ul class="mdui-list">
-				<li v-for="(cdn, i) in cdns" class="mdui-list-item mdui-ripple">
-					<button class="mdui-list-item-avatar mdui-btn mdui-btn-raised mdui-btn-icon mdui-ripple mdui-color-theme">
-						<a :href="tohref(cdn)" :download="toname(cdn)" class="mdui-icon material-icons" mdui-tooltip="{content: 'Download'}">file_download</a>
-					</button>
-					<div class="mdui-list-item-icon"></div>
-					<button :data-clipboard-target="'#foo-' + i" class="clipboard-btn mdui-list-item-avatar mdui-btn mdui-btn-raised mdui-btn-icon mdui-ripple mdui-color-theme-accent">
-						<a class="mdui-icon material-icons" mdui-tooltip="{content: 'Copy to Clipboard'}">content_copy</a>
-					</button>
-					<input :id="'foo-' + i" class="mdui-list-item-content mdui-textfield-input" type="text" readonly :value="toscript(cdn)">
-				</li>
-			</ul>
+			<div v-for="(cdn, i) in cdns">
+				<div class="mdui-row">
+					<div class="mdui-col-xs-1">
+						<button class="mdui-btn mdui-btn-raised mdui-btn-icon mdui-ripple mdui-color-theme">
+							<a :href="tohref(cdn)" :download="toname(cdn)" class="mdui-icon material-icons" mdui-tooltip="{content: 'Download'}">file_download</a>
+						</button>
+						<button :data-clipboard-target="'#foo-' + i" class="clipboard-btn mdui-btn mdui-btn-raised mdui-btn-icon mdui-ripple mdui-color-theme-accent">
+							<a class="mdui-icon material-icons" mdui-tooltip="{content: 'Copy to Clipboard'}">content_copy</a>
+						</button>
+					</div>
+					<input :id="'foo-' + i" class="mdui-col-xs-7 mdui-col-sm-9 mdui-textfield-input" type="text" readonly :value="toscript(cdn)">
+				</div>
+				<br/>
+				<br/>
+				<div class="mdui-divider"></div>
+				<br/>
+			</div>
 		</div>
 
-		<div class="mdui-divider"></div>
-		<br/>
 		<div id="demos">
 			<h1>Demos</h1>
 

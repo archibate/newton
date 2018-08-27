@@ -3,7 +3,7 @@ N2.Ticker = Class.extend({
 		this.lastTime = 0;
 	},
 
-	start: function(callback, timeStep) {
+	timeout: function(callback, timeStep) {
 		var currTime = new Date().getTime();
 		var timeToCall = timeStep * 1000 - currTime + this.lastTime;
 		currTime += Math.max(0, timeToCall);
