@@ -1,8 +1,8 @@
 (function(){
 
 var cdns = [
-	'N2.js',
-	'N2.min.js',
+	'newton.js',
+	'newton.min.js',
 ];
 
 var vm = new Vue({

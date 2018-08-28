@@ -15,7 +15,7 @@ function getMousePos(e) {
 	}
 }
 
-class Demo extends N2.World {
+class Demo extends newton.World {
 	constructor(name, brief, init) {
 		super();
 		this.name = name;
@@ -30,28 +30,28 @@ function(){return new Demo
 ( 'Drop Box'
 , 'How about to drop a box onto a surface?'
 , function() {
-	var b1 = new N2.Rect({
+	var b1 = new newton.Rect({
 		mass: 1,
-		position: new N2.Vec2(100, 160),
-		velocity: new N2.Vec2(0, 0),
+		position: new newton.Vec2(100, 160),
+		velocity: new newton.Vec2(0, 0),
 		angularVelocity: Math.PI/10,
-		size: new N2.Vec2(70, 30),
+		size: new newton.Vec2(70, 30),
 	});
 	this.add(b1);
-	var b2 = new N2.Rect({
+	var b2 = new newton.Rect({
 		mass: 0,
-		position: new N2.Vec2(200, 300),
-		velocity: new N2.Vec2(0, 0),
+		position: new newton.Vec2(200, 300),
+		velocity: new newton.Vec2(0, 0),
 		rotation: -Math.PI/2 + Math.PI/48,
 		angularVelocity: 0,
-		size: new N2.Vec2(30, 400),
+		size: new newton.Vec2(30, 400),
 	});
 	this.add(b2);
 
 	var last_p;
 	this.render.canvas.addEventListener('click', function(e) {
 		var p = getMousePos(e);
-		p = new N2.Vec2(p.x, p.y);
+		p = new newton.Vec2(p.x, p.y);
 		if (last_p) {
 			b1.applyImpulse(p.sub(last_p), last_p);
 			last_p = undefined;
@@ -66,7 +66,7 @@ function(){return new Demo
 		this.render.rect(b1.position.x, b1.position.y, b1.size.x, b1.size.y, b1.rotation);
 		this.render.rect(b2.position.x, b2.position.y, b2.size.x, b2.size.y, b2.rotation);
 
-		N2.Collide.react_Vertiable_NormableStatic(b1, b2);
+		newton.Collide.react_Vertiable_NormableStatic(b1, b2);
 	}.bind(this));
 });},
 function(){return new Demo
@@ -74,10 +74,10 @@ function(){return new Demo
 , 'How cool it will be to drop some balls on screen with mouse!'
 , function() {
 	var createBall = function(p) {
-		this.add(new N2.Circle({
+		this.add(new newton.Circle({
 			mass: 1,
-			position: new N2.Vec2(p.x, p.y),
-			velocity: N2.polarCCW(Math.random() * Math.PI * 2)
+			position: new newton.Vec2(p.x, p.y),
+			velocity: newton.polarCCW(Math.random() * Math.PI * 2)
 				    .multiply(Math.random() * 260),
 			rotation: Math.PI * 2 * Math.random(),
 			angularVelocity: Math.PI * Math.random(),
@@ -143,7 +143,7 @@ function(){return new Demo
 				if (j >= i)
 					break;
 				var d = this.bodies[j];
-				N2.Collide.react_Circle_Circle(c, d);
+				newton.Collide.react_Circle_Circle(c, d);
 			}
 		}
 	}.bind(this));
@@ -170,7 +170,7 @@ function reset(i) {
 	if (was_running)
 		demos[i].pause();
 	demos[i] = demos_f[i]();
-	demos[i].render = new N2.Render('#canvas-' + i);
+	demos[i].render = new newton.Render('#canvas-' + i);
 	demos[i].init();
 	demos[i].tick(0);
 	if (was_running)

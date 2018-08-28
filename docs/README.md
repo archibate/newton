@@ -1,18 +1,18 @@
-# N2.js
+# Newton
 A 2D Physics Engine in JavaScript
 
 ### Install
 ##### Browser
-Download either [N2.js](/build/N2.js) or the minified [N2.min.js](/build/N2.min.js) and include the script in your HTML:
+Download either [newton.js](/build/newton.js) or the minified [newton.min.js](/build/newton.min.js) and include the script in your HTML:
 ```html
-<script src="js/N2.js" type="text/javascript"></script>
+<script src="newton.js" type="text/javascript"></script>
 ```
 
 ##### Node.js
 ```
-npm install n2
+npm install newton
 ```
 Then require it like so:
 ```js
-var n2 = require('n2');
+var newton = require('newton');
 ```

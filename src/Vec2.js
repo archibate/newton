@@ -155,7 +155,7 @@ class Vec2 {
 	distance(v) {
 		return Math.sqrt(this.distanceSqr());
 	}
-};
+}
 
 /**
  * Calculate the counter clock wise rotated (1,0)

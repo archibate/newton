@@ -27,8 +27,7 @@ class Ticker {
 	 * Cancel the given timer.
 	 * @param {number} The timer id.
 	 */
-	cancel(id)
-	{
+	cancel(id) {
 		window.clearTimeout(id);
 	}
 }

@@ -1,14 +1,14 @@
 {
-  "name": "n2",
+  "name": "newton",
   "version": "0.0.1",
-  "description": "A 2D Physics Engine in JavaScript",
-  "main": "build/N2.js",
+  "description": "A 2D Rigid-body Physics Engine in JavaScript",
+  "main": "build/newton.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/archibate/N2.js.git"
+    "url": "git+https://github.com/archibate/newton.git"
   },
   "keywords": [
     "physics",
@@ -17,7 +17,10 @@
   "author": "Peng Yubin <207773419@qq.com> (https://archibate.github.io)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/archibate/N2.js/issues"
+    "url": "https://github.com/archibate/newton/issues"
   },
-  "homepage": "https://github.com/archibate/N2.js#readme"
+  "homepage": "https://github.com/archibate/newton#readme",
+  "dependencies": {
+    "node-minify": "^3.4.0"
+  }
 }

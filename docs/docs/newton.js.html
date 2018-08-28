@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: World.js</title>
+    <title>JSDoc: Source: newton.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: World.js</h1>
+    <h1 class="page-title">Source: newton.js</h1>
 
     
 
@@ -27,78 +27,9 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Class representing a World.
- * Contain multiple, variable of bodies.
+ * N2.js, a 2d rigid-body physics engine written in javascript ES6.
+ * @module
  */
-class World {
-	constructor(option) {
-		this.bodies = [];
-		this.timeStep = 1/60;
-		this.onTicks = [];
-		this.ticker = new Ticker();
-		this.gravity = new Vec2(0, 300);
-
-		option |= {};
-		for (var key in option) {
-			if (option.hasOwnProperty(key)
-				&amp;&amp; this.hasOwnProperty(key)) {
-				this[key] = option[key];
-			}
-		}
-	}
-
-	/**
-	 * Start acting the world by time.
-	 */
-	start() {
-		this.timer = this.ticker.timeout(function(dt) {
-			this.tick(dt);
-			if (this.timer)
-				this.start();
-		}.bind(this), this.timeStep);
-	}
-
-	/**
-	 * Pause the world.
-	 */
-	pause() {
-		this.ticker.cancel(this.timer);
-		this.timer = undefined;
-	}
-
-	/**
-	 * Timer tick callback.
-	 * @param {number} dt - Time passed.
-	 */
-	tick(dt) {
-		for (var k in this.bodies) {
-			var body = this.bodies[k];
-			body.tick(dt);
-		}
-		for (var i in this.onTicks) {
-			this.onTicks[i](dt);
-		}
-	}
-
-	/**
-	 * Add a body to the current world.
-	 * @param {Body} body - The body to add.
-	 */
-	add(body) {
-		body.force = this.gravity.clone().multiply(body.mass);
-		this.bodies.push(body);
-	}
-
-	/**
-	 * Set timer tick callback.
-	 * @param {function} callback - Called on an timer tick().
-	 */
-	onTick(callback) {
-		this.onTicks.push(callback);
-	}
-}
-
-exports.World = World;
 </code></pre>
         </article>
     </section>

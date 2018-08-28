@@ -1,6 +1,6 @@
 V=@
 
-OSRCS=N2.js \
+OSRCS=newton.js \
       Vec2.js World.js Ticker.js \
       AABB.js Body.js Circle.js Rect.js \
       Collide.js Render.js
@@ -9,7 +9,7 @@ SRCS=$(OSRCS:%=src/%)
 
 all: built-js docs/docs
 
-built-js: build/N2.js build/N2.min.js
+built-js: build/newton.js build/newton.min.js
 	$Vcp $^ docs/js/
 
 docs/docs: $(SRCS)
@@ -20,13 +20,15 @@ clean:
 	@echo ' -' build/*
 	$V-rm -rf build/*
 
-build/N2.min.js: build/N2.js
+build/newton.min.js: build/newton.js
 	@echo ' +' $@
-	$V(tools/jsmin.exe < $< > /tmp/$$$$; cat COPYING.js; \
+	$V(sh tools/jsmin.sh < $< > /tmp/$$$$; cat scr/COPYING.js; \
 	   tail -n `wc -l /tmp/$$$$ | awk '{print $1}'` < /tmp/$$$$) > $@
 
-build/N2.js: $(SRCS)
+build/newton.js: $(SRCS)
 	@echo ' +' $@
-	$Vcat node-head.js $^ node-tail.js > $@
+	$V(cat scr/node-head.js scr/es-class.js; \
+		cat $^ | awk -f scr/es-class.awk; \
+		cat scr/node-tail.js) > $@
 
 .PHONY: all clean
