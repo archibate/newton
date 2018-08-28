@@ -23,6 +23,7 @@ class World {
 	 * Start acting the world by time.
 	 */
 	start() {
+		this.timer = -1;
 		this.timer = this.ticker.timeout(function(dt) {
 			this.tick(dt);
 			if (this.timer)

@@ -7,9 +7,11 @@ OSRCS=newton.js \
 
 SRCS=$(OSRCS:%=src/%)
 
+TYPS=es.js js min.js
+
 all: built-js docs/docs
 
-built-js: build/newton.js build/newton.min.js
+built-js: $(TYPS:%=build/newton.%)
 	$Vcp $^ docs/js/
 
 docs/docs: $(SRCS)
@@ -28,10 +30,14 @@ build/newton.min.js: build/newton.js
 		| cat scr/COPYING.js - \
 		> $@
 
-build/newton.js: $(SRCS)
+build/newton.js: build/newton.es.js
 	@echo ' +' $@
 	$V(cat scr/node-head.js scr/es-class.js; \
 		cat $^ | awk -f scr/es-class.awk; \
 		cat scr/node-tail.js) > $@
+
+build/newton.es.js: $(SRCS)
+	@echo ' +' $@
+	$Vcat $^ > $@
 
 .PHONY: all clean built-js

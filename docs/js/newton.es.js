@@ -1,39 +1,3 @@
-(function(global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ?
-		module.exports = factory() :
-		typeof define === 'function' && define.amd ?
-		define(factory) : (global.newton = factory());
-})(this, (function () {
-	var exports = {};
-var Class = function() {};
-
-Class.extend = function(prop) {
-	var _super = this.prototype;
-	var prototype = Object.create(this.prototype);
-	for (var name in prop) {
-		prototype[name] = name === 'ctor' ?
-			(function(name, fn) {
-				return function() {
-					var tmp = this._super;
-					this._super = _super[name];
-					var ret = fn.apply(this, arguments);
-					this._super = tmp;
-					return ret;
-				};
-			})(name, prop[name]) : prop[name];
-	}
-
-	function Class() {
-		Class.prototype.ctor.apply(this, arguments);
-	}
-
-	Class.prototype = prototype;
-	Class.prototype._super = Object.create(this.prototype);
-	Class.prototype.constructor = Class;
-	Class.extend = arguments.callee;
-
-	return Class;
-};
 /**
  * N2.js, a 2d rigid-body physics engine written in javascript ES6.
  * @module
@@ -41,161 +5,161 @@ Class.extend = function(prop) {
 /**
  * Class representing a (2d) vector, and a point.
  */
-var Vec2 = Class.extend({
+class Vec2 {
 	/**
 	 * Create a vector.
 	 * @param {number} x - The x coordinate.
 	 * @param {number} y - The y coordinate.
 	 */
-	ctor: function(x, y) {
+	constructor(x, y) {
 		this.x = x;
 		this.y = y;
-	},
+	}
 	/**
 	 * Clone this vector a new instance.
 	 * @return {Vec2} The cloned vector.
 	 */
-	clone: function() {
+	clone() {
 		return new Vec2(this.x, this.y);
-	},
+	}
 	/**
 	 * @return {number} The squared length.
 	 */
-	lengthSqr: function() {
+	lengthSqr() {
 		return this.x * this.x + this.y * this.y;
-	},
+	}
 	/**
 	 * @return {number} The length of vector.
 	 */
-	length: function() {
+	length() {
 		return Math.sqrt(this.lengthSqr());
-	},
+	}
 	/**
 	 * Normalize the vector.
 	 * @return {Vec2} Instance of this.
 	 */
-	normalize: function() {
+	normalize() {
 		var inv = 1 / this.length();
 		this.x *= inv;
 		this.y *= inv;
 		return this;
-	},
+	}
 	/**
 	 * Assign with another vector.
 	 * @return {Vec2} Instance of this.
 	 */
-	assign: function(v) {
+	assign(v) {
 		this.x = v.x;
 		this.y = v.y;
 		return this;
-	},
+	}
 	/**
 	 * rotate counter clock wise with 90 degrees.
 	 * @return {Vec2} Rotated result.
 	 */
-	rotatedCCW: function() {
+	rotatedCCW() {
 		return new Vec2(-this.y, this.x);
-	},
+	}
 	/**
 	 * rotate clock wise with 90 degrees.
 	 * @return {Vec2} Rotated result.
 	 */
-	rotatedCW: function() {
+	rotatedCW() {
 		return new Vec2(this.y, -this.x);
-	},
+	}
 	/**
 	 * Add another vector to this.
 	 * @param {Vec2} v - another vector.
 	 * @return {Vec2} Instance of this.
 	 */
-	add: function(v) {
+	add(v) {
 		this.x += v.x;
 		this.y += v.y;
 		return this;
-	},
+	}
 	/**
 	 * Subtract another vector from this.
 	 * @param {Vec2} v - another vector.
 	 * @return {Vec2} Instance of this.
 	 */
-	sub: function(v) {
+	sub(v) {
 		this.x -= v.x;
 		this.y -= v.y;
 		return this;
-	},
+	}
 	/**
-	 * Same as this.add: function(v.multiply: function(f)).
+	 * Same as this.add(v.multiply(f)).
 	 * @param {Vec2} v - another vector.
 	 * @param {number} f - the scale of another vector.
 	 * @return {Vec2} Instance of this.
 	 */
-	addOfMultiplied: function(v, f) {
+	addOfMultiplied(v, f) {
 		this.x += v.x * f;
 		this.y += v.y * f;
 		return this;
-	},
+	}
 	/**
-	 * Same as this.sub: function(v.multiply: function(f)).
+	 * Same as this.sub(v.multiply(f)).
 	 * @param {Vec2} v - another vector.
 	 * @param {number} f - the scale of another vector.
 	 * @return {Vec2} Instance of this.
 	 */
-	subOfMultiplied: function(v, f) {
+	subOfMultiplied(v, f) {
 		this.x -= v.x * f;
 		this.y -= v.y * f;
 		return this;
-	},
+	}
 	/**
 	 * Multiply a scalar to this vector.
 	 * @param {number} f - the scalar.
 	 * @return {Vec2} Instance of this.
 	 */
-	multiply: function(f) {
+	multiply(f) {
 		this.x *= f;
 		this.y *= f;
 		return this;
-	},
+	}
 	/**
 	 * Calculate the dot product with another vector.
 	 * @param {number} v - another vector.
 	 * @return {number} The dot product.
 	 */
-	dot: function(v) {
+	dot(v) {
 		return this.x * v.x + this.y * v.y;
-	},
+	}
 	/**
-	 * Calculate the : function(2d) cross product with another vector.
+	 * Calculate the (2d) cross product with another vector.
 	 * @param {number} v - another vector.
-	 * @return {number} The : function(2d) cross product.
+	 * @return {number} The (2d) cross product.
 	 */
-	cross: function(v) {
+	cross(v) {
 		return this.x * v.y - this.y * v.x;
-	},
+	}
 	/**
 	 * Calculate the angle between this and another vector.
 	 * @param {number} v - another vector.
 	 * @return {number} The angle between them.
 	 */
-	angle: function(v) {
+	angle(v) {
 		return Math.acos(this.dot(v) / (this.length() * v.length()));
-	},
+	}
 	/**
-	 * Calculate the squared distance between two point : function(i.e. vector).
-	 * @param {number} v - another point : function(vector).
+	 * Calculate the squared distance between two point (i.e. vector).
+	 * @param {number} v - another point (vector).
 	 * @return {number} The squared distance.
 	 */
-	distanceSqr: function(v) {
+	distanceSqr(v) {
 		return this.x * v.x + this.y * v.y;
-	},
+	}
 	/**
-	 * Calculate the distance between two point : function(i.e. vector).
-	 * @param {number} v - another point : function(vector).
+	 * Calculate the distance between two point (i.e. vector).
+	 * @param {number} v - another point (vector).
 	 * @return {number} The distance between them.
 	 */
-	distance: function(v) {
+	distance(v) {
 		return Math.sqrt(this.distanceSqr());
-	},
-});
+	}
+}
 
 /**
  * Calculate the counter clock wise rotated (1,0)
@@ -222,8 +186,8 @@ exports.polarCW = polarCW;
  * Class representing a World.
  * Contain multiple, variable of bodies.
  */
-var World = Class.extend({
-	ctor: function(option) {
+class World {
+	constructor(option) {
 		this.bodies = [];
 		this.timeStep = 1/60;
 		this.onTicks = [];
@@ -237,33 +201,33 @@ var World = Class.extend({
 				this[key] = option[key];
 			}
 		}
-	},
+	}
 
 	/**
 	 * Start acting the world by time.
 	 */
-	start: function() {
+	start() {
 		this.timer = -1;
 		this.timer = this.ticker.timeout(function(dt) {
 			this.tick(dt);
 			if (this.timer)
 				this.start();
 		}.bind(this), this.timeStep);
-	},
+	}
 
 	/**
 	 * Pause the world.
 	 */
-	pause: function() {
+	pause() {
 		this.ticker.cancel(this.timer);
 		this.timer = undefined;
-	},
+	}
 
 	/**
 	 * Timer tick callback.
 	 * @param {number} dt - Time passed.
 	 */
-	tick: function(dt) {
+	tick(dt) {
 		for (var k in this.bodies) {
 			var body = this.bodies[k];
 			body.tick(dt);
@@ -271,34 +235,34 @@ var World = Class.extend({
 		for (var i in this.onTicks) {
 			this.onTicks[i](dt);
 		}
-	},
+	}
 
 	/**
 	 * Add a body to the current world.
 	 * @param {Body} body - The body to add.
 	 */
-	add: function(body) {
+	add(body) {
 		body.force = this.gravity.clone().multiply(body.mass);
 		this.bodies.push(body);
-	},
+	}
 
 	/**
 	 * Set timer tick callback.
-	 * @param {function} callback - Called on an timer tick: function().
+	 * @param {function} callback - Called on an timer tick().
 	 */
-	onTick: function(callback) {
+	onTick(callback) {
 		this.onTicks.push(callback);
-	},
-});
+	}
+}
 
 exports.World = World;
 /**
  * Class to control timer ticks.
  */
-var Ticker = Class.extend({
-	ctor: function() {
+class Ticker {
+	constructor() {
 		this.lastTime = 0;
-	},
+	}
 
 	/**
 	 * Set a timeout callback.
@@ -306,7 +270,7 @@ var Ticker = Class.extend({
 	 * @param {function} timeStep - How long to call.
 	 * @returns {number} The timer id.
 	 */
-	timeout: function(callback, timeStep) {
+	timeout(callback, timeStep) {
 		var currTime = new Date().getTime();
 		var timeToCall = timeStep * 1000 - currTime + this.lastTime;
 		currTime += Math.max(0, timeToCall);
@@ -315,42 +279,42 @@ var Ticker = Class.extend({
 		}, timeToCall);
 		this.lastTime = currTime;
 		return id;
-	},
+	}
 
 	/**
 	 * Cancel the given timer.
 	 * @param {number} The timer id.
 	 */
-	cancel: function(id) {
+	cancel(id) {
 		window.clearTimeout(id);
-	},
-});
+	}
+}
 
 exports.Ticker = Ticker;
 /**
  * Class representing an AABB box.
  * Use for pre-collision detect. (uncompleted)
  */
-var AABB = Class.extend({
-	ctor: function(l, t, r, b) {
+class AABB {
+	constructor(l, t, r, b) {
 		this.l = l;
 		this.t = t;
 		this.r = r;
 		this.b = b;
-	},
+	}
 
 	// https://www.ibm.com/developerworks/cn/web/wa-build2dphysicsengine/
-	doesCollide: function(c) {
+	doesCollide(c) {
 		return  !( this.b < c.t || this.t > c.b
 			|| this.r < c.l || this.l > c.r
 			);
-	},
-});
+	}
+}
 /**
  * Class representing a rigid body.
  */
-var Body = Class.extend({
-	ctor: function(option) {
+class Body {
+	constructor(option) {
 		this.position = new Vec2(0, 0);
 		this.mass = 0;
 		this.velocity = new Vec2(0, 0);
@@ -372,103 +336,103 @@ var Body = Class.extend({
 		} else {
 			this.invMass = 0;
 		}
-	},
+	}
 
 	/**
 	 * Apply an impulse on a specific point.
 	 * @param {Vec2} impulse - the impulse vector.
 	 * @param {Vec2} point - the point it acts.
 	 */
-	applyImpulse: function(impulse, point) {
+	applyImpulse(impulse, point) {
 		var rA = point.clone().sub(this.position);
 		this.angularVelocity += rA.cross(impulse) * this.invRotationalInertia;
 		this.velocity.addOfMultiplied(impulse, this.invMass);
-	},
+	}
 
-	getSCAAt: function(p, n)
+	getSCAAt(p, n)
 	{
 		// SCA := (rA^n)**2 / J + 1 / M
 		var rA = p.clone().sub(this.position);
 		var rCn = rA.cross(n);
 		return rCn * rCn * this.invRotationalInertia + this.invMass;
-	},
+	}
 
-	getVelocityAt: function(p)
+	getVelocityAt(p)
 	{
 		var rA = p.clone().sub(this.position);
 		var rv = rA.rotatedCCW().multiply(this.angularVelocity);
 		return rv.add(this.velocity);
-	},
+	}
 	
-	intergrateVelocity: function(dt) {
+	intergrateVelocity(dt) {
 		this.velocity.add(this.force.clone().multiply(this.invMass * dt));
-	},
+	}
 	
-	intergratePosition: function(dt) {
+	intergratePosition(dt) {
 		this.position.add(this.velocity.clone().multiply(dt));
-	},
+	}
 	
-	intergrateRotation: function(dt) {
+	intergrateRotation(dt) {
 		this.rotation += this.angularVelocity * dt;
-	},
+	}
 
 	/**
 	 * Timer tick callback.
 	 * @param {number} dt - Time passed.
 	 */
-	tick: function(dt) {
+	tick(dt) {
 		this.intergrateVelocity(dt);
 		this.intergratePosition(dt);
 		this.intergrateRotation(dt);
-	},
-});
+	}
+}
 
 exports.Body = Body;
 /**
  * A kind of rigid-body: a circle (i.e. 2d ball).
  * @extends Body
  */
-var Circle = Body.extend({
-	ctor: function(option) {
-		this._super(option);
+class Circle extends Body {
+	constructor(option) {
+		super(option);
 		this.r = option.r;
 		this.rSqr = this.r * this.r;
 		this.invRotationalInteria = 2 * this.invMass / this.rSqr;
-	},
-});
+	}
+}
 
 exports.Circle = Circle;
 /**
  * A kind of rigid-body: a rectangle.
  * @extends Body
  */
-var Rect = Body.extend({
-	ctor: function(option) {
-		this._super(option);
+class Rect extends Body {
+	constructor(option) {
+		super(option);
 		this.size = option.size;
 		this.halfsize = this.size.clone().multiply(0.5);
 		this.sizeSqr = this.size.lengthSqr();
 		this.invRotationalInertia = 12 * this.invMass / this.sizeSqr;
 		this.rotationalInertia = 1 / this.invRotationalInertia;
-	},
+	}
 
-	getAABB: function()
+	getAABB()
 	{
 		var lt = this.position.clone().sub(this.halfsize);
 		var rb = this.position.clone().add(this.halfsize);
 		return new AABB(lt.x, lt.y, rb.x, rb.y);
-	},
+	}
 
-	getNormalAt: function(p)
+	getNormalAt(p)
 	{
 		var rA = p.clone().sub(this.position);
 		var n = new polarCCW(this.rotation);
 
 		if (Math.abs(rA.dot(n)) <= this.halfsize.x)
 			return n;
-	},
+	}
 
-	getVertices: function()
+	getVertices()
 	{
 		var bx = polarCCW(this.rotation);
 		var by = bx.rotatedCCW();
@@ -480,8 +444,8 @@ var Rect = Body.extend({
 			ax.clone().add(dy), ax.sub(dy),
 			sx.clone().add(dy), sx.sub(dy),
 		];
-	},
-});
+	}
+}
 
 exports.Rect = Rect;
 /**
@@ -549,22 +513,22 @@ exports.Collide = {
 /**
  * The class used to render objects on canvas.
  */
-var Render = Class.extend({
+class Render {
 	/**
 	 * Create a render instance.
 	 * @param {string} selector - The query selector.
 	 */
-	ctor: function(selector) {
+	constructor(selector) {
 		this.canvas = document.querySelector(selector);
 		this.ctx = this.canvas.getContext('2d');
-	},
+	}
 
 	/**
 	 * Clear the canvas.
 	 */
-	clear: function() {
+	clear() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
+	}
 
 	/**
 	 * Draw a circle.
@@ -573,7 +537,7 @@ var Render = Class.extend({
 	 * @param {number} r - The radius of the circle.
 	 * @param {number} rotation - The rotated angle of the circle.
 	 */
-	circle: function(x, y, r, rotation) {
+	circle(x, y, r, rotation) {
 		this.ctx.save();
 		this.ctx.beginPath();
 		this.ctx.setTransform(Math.cos(rotation), Math.sin(rotation),
@@ -584,7 +548,7 @@ var Render = Class.extend({
 		this.ctx.arc(0, 0, 3, 0, 2 * Math.PI, false);
 		this.ctx.stroke();
 		this.ctx.restore();
-	},
+	}
 
 	/**
 	 * Draw a rectangle.
@@ -594,7 +558,7 @@ var Render = Class.extend({
 	 * @param {number} h - The height of the rectangle.
 	 * @param {number} rotation - The rotated angle of the rectangle.
 	 */
-	rect: function(x, y, w, h, rotation) {
+	rect(x, y, w, h, rotation) {
 		this.ctx.save();
 		this.ctx.beginPath();
 		this.ctx.setTransform(Math.cos(rotation), Math.sin(rotation),
@@ -608,9 +572,7 @@ var Render = Class.extend({
 		this.ctx.closePath();
 		this.ctx.stroke();
 		this.ctx.restore();
-	},
-});
+	}
+}
 
 exports.Render = Render;
-	return exports;
-}));

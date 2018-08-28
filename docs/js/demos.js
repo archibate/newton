@@ -173,6 +173,8 @@ function reset(i) {
 	demos[i].render = new newton.Render('#canvas-' + i);
 	demos[i].init();
 	demos[i].tick(0);
+	demos[i].start();
+	demos[i].pause();
 	if (was_running)
 		demos[i].start();
 }
