@@ -226,9 +226,12 @@ var World = Class.extend({
 	ctor: function(option) {
 		this.bodies = [];
 		this.timeStep = 1/60;
+		this.splitSteps = 2;
 		this.onTicks = [];
 		this.ticker = new Ticker();
-		this.gravity = new Vec2(0, 300);
+		this.getGravity = function(p) {
+			return new Vec2(0, 300);
+		};
 
 		option |= {};
 		for (var key in option) {
@@ -264,9 +267,11 @@ var World = Class.extend({
 	 * @param {number} dt - Time passed.
 	 */
 	tick: function(dt) {
-		for (var k in this.bodies) {
-			var body = this.bodies[k];
-			body.tick(dt);
+		for (var i = 0; i < this.splitSteps; i++) {
+			for (var k in this.bodies) {
+				var body = this.bodies[k];
+				body.tick(dt / this.splitSteps);
+			}
 		}
 		for (var i in this.onTicks) {
 			this.onTicks[i](dt);
@@ -278,7 +283,7 @@ var World = Class.extend({
 	 * @param {Body} body - The body to add.
 	 */
 	add: function(body) {
-		body.force = this.gravity.clone().multiply(body.mass);
+		body.getGravity = this.getGravity.bind(this);
 		this.bodies.push(body);
 	},
 
@@ -357,6 +362,7 @@ var Body = Class.extend({
 		this.rotation = 0;
 		this.angularVelocity = 0;
 		this.invRotationalInertia = 0;
+		this.acceleration = new Vec2(0, 0);
 
 		for (var key in option) {
 			if (option.hasOwnProperty(key)
@@ -364,8 +370,6 @@ var Body = Class.extend({
 				this[key] = option[key];
 			}
 		}
-
-		this.force = new Vec2(0, 0);
 
 		if (this.mass != 0) {
 			this.invMass = 1 / this.mass;
@@ -401,7 +405,8 @@ var Body = Class.extend({
 	},
 	
 	intergrateVelocity: function(dt) {
-		this.velocity.add(this.force.clone().multiply(this.invMass * dt));
+		if (this.invMass)
+			this.velocity.add(this.getGravity(this).multiply(dt));
 	},
 	
 	intergratePosition: function(dt) {

@@ -6,9 +6,12 @@ class World {
 	constructor(option) {
 		this.bodies = [];
 		this.timeStep = 1/60;
+		this.splitSteps = 2;
 		this.onTicks = [];
 		this.ticker = new Ticker();
-		this.gravity = new Vec2(0, 300);
+		this.getGravity = function(p) {
+			return new Vec2(0, 300);
+		};
 
 		option |= {};
 		for (var key in option) {
@@ -44,9 +47,11 @@ class World {
 	 * @param {number} dt - Time passed.
 	 */
 	tick(dt) {
-		for (var k in this.bodies) {
-			var body = this.bodies[k];
-			body.tick(dt);
+		for (var i = 0; i < this.splitSteps; i++) {
+			for (var k in this.bodies) {
+				var body = this.bodies[k];
+				body.tick(dt / this.splitSteps);
+			}
 		}
 		for (var i in this.onTicks) {
 			this.onTicks[i](dt);
@@ -58,7 +63,7 @@ class World {
 	 * @param {Body} body - The body to add.
 	 */
 	add(body) {
-		body.force = this.gravity.clone().multiply(body.mass);
+		body.getGravity = this.getGravity.bind(this);
 		this.bodies.push(body);
 	}
 

@@ -1,5 +1,14 @@
 (function() {
 
+function smoothstep(a, b, x) {
+	if (x < a)
+		return 0;
+	if (x > b)
+		return 1;
+	var y = (x - a) / (b - a);
+	return y * y * (3 - 2 * y);
+}
+
 function getMousePos(e) {
 	if (e.layerX && e.layerY) {
 		return {
@@ -70,18 +79,35 @@ function(){return new Demo
 	}.bind(this));
 });},
 function(){return new Demo
-( 'Drop Balls'
-, 'How cool it will be to drop some balls on screen with mouse!'
+( 'Birth of a Planet'
+, 'Drop a lot of dust by mouse and watch what will happen!'
 , function() {
+	this.getGravity = function(self) {
+		var G = 200000;
+		var acc = new newton.Vec2(0, 0);
+		for (var i in this.bodies) {
+			var body = this.bodies[i];
+			var dis = body.position.clone().sub(self.position);
+			var d = dis.length();
+			var rate = smoothstep(body.r * 5, body.r * 0.5, d);
+			if (rate > 0) {
+				var d3 = d * d * d;
+				acc.add(dis.multiply(rate * G / d3));
+			}
+		}
+		return acc;
+	};
+
 	var createBall = function(p) {
+		var r = smoothstep(0, 1, Math.random()) * 1.5 + 4.5;
 		this.add(new newton.Circle({
-			mass: 1,
+			mass: r*r/25,
 			position: new newton.Vec2(p.x, p.y),
 			velocity: newton.polarCCW(Math.random() * Math.PI * 2)
 				    .multiply(Math.random() * 260),
 			rotation: Math.PI * 2 * Math.random(),
 			angularVelocity: Math.PI * Math.random(),
-			r: 20,
+			r: r,
 		}));
 	}.bind(this);
 
@@ -94,10 +120,11 @@ function(){return new Demo
 		createBall(getMousePos(e));
 	}, false);
 
-	/*var decay_vel = 0.95;
-	var decay_angvel = 0.9;*/
-	var decay_vel = 1.00;
-	var decay_angvel = 1.0;
+	var decay_vel = 0.8;
+	var decay_angvel = 0.8;
+
+	this.timeStep = 1/60;
+	this.splitSteps = 5;
 
 	this.onTick(function() {
 		this.render.clear();
@@ -130,14 +157,14 @@ function(){return new Demo
 				c.position.x = c.r;
 			}
 
-			if (Math.round(c.position.y + c.r) == this.render.canvas.height
+			/*if (Math.round(c.position.y + c.r) == this.render.canvas.height
 				&& Math.abs(c.velocity.y) < minV) {
 				c.velocity.y = 0;
 				c.velocity.x *= decay_vel;
 			}
 			if (Math.abs(c.velocity.x) < minV) {
 				c.velocity.x = 0;
-			}
+			}*/
 
 			for (var j in this.bodies) {
 				if (j >= i)

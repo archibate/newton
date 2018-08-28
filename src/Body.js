@@ -9,6 +9,7 @@ class Body {
 		this.rotation = 0;
 		this.angularVelocity = 0;
 		this.invRotationalInertia = 0;
+		this.acceleration = new Vec2(0, 0);
 
 		for (var key in option) {
 			if (option.hasOwnProperty(key)
@@ -16,8 +17,6 @@ class Body {
 				this[key] = option[key];
 			}
 		}
-
-		this.force = new Vec2(0, 0);
 
 		if (this.mass != 0) {
 			this.invMass = 1 / this.mass;
@@ -53,7 +52,8 @@ class Body {
 	}
 	
 	intergrateVelocity(dt) {
-		this.velocity.add(this.force.clone().multiply(this.invMass * dt));
+		if (this.invMass)
+			this.velocity.add(this.getGravity(this).multiply(dt));
 	}
 	
 	intergratePosition(dt) {
