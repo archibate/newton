@@ -22,8 +22,11 @@ clean:
 
 build/newton.min.js: build/newton.js
 	@echo ' +' $@
-	$V(sh tools/jsmin.sh < $< > /tmp/$$$$; cat scr/COPYING.js; \
-	   tail -n `wc -l /tmp/$$$$ | awk '{print $1}'` < /tmp/$$$$) > $@
+	$Vcat $< \
+		| sh tools/jsmin.sh \
+		| awk -f scr/space-to-newline.awk \
+		| cat scr/COPYING.js - \
+		> $@
 
 build/newton.js: $(SRCS)
 	@echo ' +' $@
@@ -31,4 +34,4 @@ build/newton.js: $(SRCS)
 		cat $^ | awk -f scr/es-class.awk; \
 		cat scr/node-tail.js) > $@
 
-.PHONY: all clean
+.PHONY: all clean built-js
