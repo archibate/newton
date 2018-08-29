@@ -36,8 +36,79 @@ class Demo extends newton.World {
 var demos_f = [
 ////begin
 function(){return new Demo
+( 'Double Pendulum'
+, 'Chaos Museum. Click mouse to show the trace.'
+, function() {
+	var CY = 80;
+	var R1 = 120;
+	var R12 = 80;
+	var c1 = new newton.Circle({
+		mass: 1,
+		position: new newton.Vec2(200, CY + R1),
+		velocity: new newton.Vec2(0, 0),
+		rotation: 0,
+		angularVelocity: 0,
+		r: 20,
+	});
+	this.add(c1);
+	var c2 = new newton.Circle({
+		mass: 0.5,
+		position: new newton.Vec2(200, CY + R1 + R12),
+		velocity: new newton.Vec2(-500, 0),
+		rotation: 0,
+		angularVelocity: 0,
+		r: 14,
+	});
+	this.add(c2);
+
+	var trace = false;
+	var last_p = c2.position;
+	this.render.canvas.addEventListener('click', function(e) {
+		if (trace = !trace)
+			this.render.clear();
+		last_p = c2.position;
+		/*var p = getMousePos(e);
+		p = new newton.Vec2(p.x, p.y);
+		c2.applyImpulse(p.sub(c2.position), c2.position);*/
+	}.bind(this), false);
+
+	var center = new newton.Vec2(200, CY);
+
+	c1.fixTicker = 0;
+	c2.fixTicker = 3;
+	this.onStep(function() {
+		c1.applyCenteredCircularConstraint(center);
+		var c1velocity = c1.velocity.clone();
+		var c2velocity = c2.velocity.clone();
+		c2.velocity.sub(c1velocity);
+		c2.applyCenteredCircularConstraint(c1.position);
+		if (c1.fixTicker++ % 5 == 0)
+			c1.fixCenteredCircularConstraint(center, R1);
+		if (c2.fixTicker++ % 5 == 0)
+			c2.fixCenteredCircularConstraint(c1.position, R12);
+		c2.velocity.add(c1velocity);
+		c1.velocity.sub(c2velocity);
+		c1.applyCenteredCircularConstraint(c2.position);
+		c1.velocity.add(c2velocity);
+	}.bind(this));
+
+	this.onTick(function() {
+		if (trace) {
+			this.render.line(last_p.x, last_p.y, c2.position.x, c2.position.y);
+			last_p = c2.position.clone();
+		} else {
+			this.render.clear();
+
+			this.render.line(center.x, center.y, c1.position.x, c1.position.y);
+			this.render.circle(c1.position.x, c1.position.y, c1.r, c1.rotation);
+			this.render.line(c1.position.x, c1.position.y, c2.position.x, c2.position.y);
+			this.render.circle(c2.position.x, c2.position.y, c2.r, c2.rotation);
+		}
+	}.bind(this));
+});},
+function(){return new Demo
 ( 'Drop Box'
-, 'How about to drop a box onto a surface?'
+, 'Press mouse to apply impulse in that direction.'
 , function() {
 	var b1 = new newton.Rect({
 		mass: 1,
@@ -49,15 +120,33 @@ function(){return new Demo
 	this.add(b1);
 	var b2 = new newton.Rect({
 		mass: 0,
-		position: new newton.Vec2(200, 300),
+		position: new newton.Vec2(200, 360),
 		velocity: new newton.Vec2(0, 0),
-		rotation: -Math.PI/2 + Math.PI/48,
+		rotation: -Math.PI/2 - Math.PI/48,
 		angularVelocity: 0,
 		size: new newton.Vec2(30, 400),
 	});
 	this.add(b2);
+	var b3 = new newton.Rect({
+		mass: 0,
+		position: new newton.Vec2(360, 200),
+		velocity: new newton.Vec2(0, 0),
+		rotation: -Math.PI,
+		angularVelocity: 0,
+		size: new newton.Vec2(30, 400),
+	});
+	this.add(b3);
+	var b4 = new newton.Rect({
+		mass: 0,
+		position: new newton.Vec2(40, 200),
+		velocity: new newton.Vec2(0, 0),
+		rotation: 0,
+		angularVelocity: 0,
+		size: new newton.Vec2(30, 400),
+	});
+	this.add(b4);
 
-	var last_p;
+	/*var last_p;
 	this.render.canvas.addEventListener('click', function(e) {
 		var p = getMousePos(e);
 		p = new newton.Vec2(p.x, p.y);
@@ -67,21 +156,53 @@ function(){return new Demo
 		} else {
 			last_p = p;
 		}
+	}, false);*/
+	this.render.canvas.addEventListener('click', function(e) {
+		var p = getMousePos(e);
+		p = new newton.Vec2(p.x, p.y);
+		b1.applyImpulse(p.sub(b1.position), b1.position);
 	}, false);
+
+	function lineEqu(p, o, n)
+	{
+		return p.clone().sub(o).dot(n);
+	}
+
+	var lright = 300;
+	var origPoint = b1.getVertices()[1];
+	var n = newton.polarCCW(Math.PI/10).rotatedCW();
+	this.onStep(function() {
+		var vs = b1.getVertices();
+		for (var i in vs) {
+			var point = vs[i];
+			if (point.x <= lright && Math.abs(lineEqu(point, origPoint, n)) <= 2.5)
+				b1.applyLinearConstraint(point, n, true, 0.2);
+		}
+		newton.Collide.react_Vertiable_NormableStatic(b1, b2, 0.9);
+		newton.Collide.react_Vertiable_NormableStatic(b1, b3, 0.9);
+		newton.Collide.react_Vertiable_NormableStatic(b1, b4, 0.9);
+	}.bind(this));
 
 	this.onTick(function() {
 		this.render.clear();
 
-		this.render.rect(b1.position.x, b1.position.y, b1.size.x, b1.size.y, b1.rotation);
-		this.render.rect(b2.position.x, b2.position.y, b2.size.x, b2.size.y, b2.rotation);
+		var from = n.rotatedCW().multiply(origPoint.x).add(origPoint);
+		var to = n.rotatedCCW().multiply(lright - origPoint.x).add(origPoint);
+		this.render.line(from.x, from.y, to.x, to.y);
 
-		newton.Collide.react_Vertiable_NormableStatic(b1, b2);
+		for (var i in this.bodies) {
+			var b = this.bodies[i];
+			this.render.rect(b.position.x, b.position.y,
+					 b.size.x, b.size.y, b.rotation);
+		}
+
 	}.bind(this));
 });},
 function(){return new Demo
 ( 'Birth of a Planet'
 , 'Drop a lot of dust by mouse and watch what will happen!'
 , function() {
+
 	this.getGravity = function(self) {
 		var G = 200000;
 		var acc = new newton.Vec2(0, 0);
@@ -126,12 +247,9 @@ function(){return new Demo
 	this.timeStep = 1/60;
 	this.splitSteps = 5;
 
-	this.onTick(function() {
-		this.render.clear();
-
+	this.onStep(function() {
 		for (var i in this.bodies) {
 			var c = this.bodies[i];
-			this.render.circle(c.position.x, c.position.y, c.r, c.rotation);
 
 			var minV = 10;
 
@@ -157,15 +275,6 @@ function(){return new Demo
 				c.position.x = c.r;
 			}
 
-			/*if (Math.round(c.position.y + c.r) == this.render.canvas.height
-				&& Math.abs(c.velocity.y) < minV) {
-				c.velocity.y = 0;
-				c.velocity.x *= decay_vel;
-			}
-			if (Math.abs(c.velocity.x) < minV) {
-				c.velocity.x = 0;
-			}*/
-
 			for (var j in this.bodies) {
 				if (j >= i)
 					break;
@@ -174,7 +283,16 @@ function(){return new Demo
 			}
 		}
 	}.bind(this));
-});},
+
+	this.onTick(function() {
+		this.render.clear();
+
+		for (var i in this.bodies) {
+			var c = this.bodies[i];
+			this.render.circle(c.position.x, c.position.y, c.r, c.rotation);
+		}
+	}.bind(this));
+});},/**/
 ////end
 ];
 

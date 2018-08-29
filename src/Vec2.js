@@ -117,7 +117,7 @@ class Vec2 {
 	}
 	/**
 	 * Calculate the dot product with another vector.
-	 * @param {number} v - another vector.
+	 * @param {Vec2} v - another vector.
 	 * @return {number} The dot product.
 	 */
 	dot(v) {
@@ -125,23 +125,39 @@ class Vec2 {
 	}
 	/**
 	 * Calculate the (2d) cross product with another vector.
-	 * @param {number} v - another vector.
+	 * @param {Vec2} v - another vector.
 	 * @return {number} The (2d) cross product.
 	 */
 	cross(v) {
 		return this.x * v.y - this.y * v.x;
 	}
 	/**
+	 * Calculate the projection to a specific direction.
+	 * @param {number} n - projection direction, should be normalized.
+	 * @return {Vec2} Projected result.
+	 */
+	projected(n) {
+		return n.clone().multiply(this.dot(n));
+	}
+	/**
+	 * Project the vector to a specific direction.
+	 * @param {number} n - projection direction, should be normalized.
+	 * @return {Vec2} Instance of this.
+	 */
+	projection(n) {
+		return this.assign(this.projected);
+	}
+	/**
 	 * Calculate the angle between this and another vector.
-	 * @param {number} v - another vector.
-	 * @return {number} The angle between them.
+	 * @param {Vec2} v - another vector.
+	 * @return {number} The angle between them (in radians).
 	 */
 	angle(v) {
 		return Math.acos(this.dot(v) / (this.length() * v.length()));
 	}
 	/**
 	 * Calculate the squared distance between two point (i.e. vector).
-	 * @param {number} v - another point (vector).
+	 * @param {Vec2} v - another point (vector).
 	 * @return {number} The squared distance.
 	 */
 	distanceSqr(v) {
@@ -149,7 +165,7 @@ class Vec2 {
 	}
 	/**
 	 * Calculate the distance between two point (i.e. vector).
-	 * @param {number} v - another point (vector).
+	 * @param {Vec2} v - another point (vector).
 	 * @return {number} The distance between them.
 	 */
 	distance(v) {

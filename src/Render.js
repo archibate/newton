@@ -19,6 +19,22 @@ class Render {
 	}
 
 	/**
+	 * Draw a line.
+	 * @param {number} x0 - The begin x cooridate of center.
+	 * @param {number} y0 - The begin y cooridate of center.
+	 * @param {number} x1 - The end x cooridate of center.
+	 * @param {number} y1 - The end y cooridate of center.
+	 */
+	line(x0, y0, x1, y1) {
+		this.ctx.save();
+		this.ctx.beginPath();
+		this.ctx.moveTo(x0, y0);
+		this.ctx.lineTo(x1, y1);
+		this.ctx.stroke();
+		this.ctx.restore();
+	}
+
+	/**
 	 * Draw a circle.
 	 * @param {number} x - The x cooridate of center.
 	 * @param {number} y - The y cooridate of center.

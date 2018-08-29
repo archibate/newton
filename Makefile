@@ -9,10 +9,10 @@ SRCS=$(OSRCS:%=src/%)
 
 TYPS=es.js js min.js
 
-all: built-js docs/docs
-
 built-js: $(TYPS:%=build/newton.%)
 	$Vcp $^ docs/js/
+
+all: built-js docs/docs
 
 docs/docs: $(SRCS)
 	@echo ' +' $@
@@ -26,7 +26,6 @@ build/newton.min.js: build/newton.js
 	@echo ' +' $@
 	$Vcat $< \
 		| sh tools/jsmin.sh \
-		| awk -f scr/space-to-newline.awk \
 		| cat scr/COPYING.js - \
 		> $@
 

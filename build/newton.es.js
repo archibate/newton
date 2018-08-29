@@ -121,7 +121,7 @@ class Vec2 {
 	}
 	/**
 	 * Calculate the dot product with another vector.
-	 * @param {number} v - another vector.
+	 * @param {Vec2} v - another vector.
 	 * @return {number} The dot product.
 	 */
 	dot(v) {
@@ -129,23 +129,39 @@ class Vec2 {
 	}
 	/**
 	 * Calculate the (2d) cross product with another vector.
-	 * @param {number} v - another vector.
+	 * @param {Vec2} v - another vector.
 	 * @return {number} The (2d) cross product.
 	 */
 	cross(v) {
 		return this.x * v.y - this.y * v.x;
 	}
 	/**
+	 * Calculate the projection to a specific direction.
+	 * @param {number} n - projection direction, should be normalized.
+	 * @return {Vec2} Projected result.
+	 */
+	projected(n) {
+		return n.clone().multiply(this.dot(n));
+	}
+	/**
+	 * Project the vector to a specific direction.
+	 * @param {number} n - projection direction, should be normalized.
+	 * @return {Vec2} Instance of this.
+	 */
+	projection(n) {
+		return this.assign(this.projected);
+	}
+	/**
 	 * Calculate the angle between this and another vector.
-	 * @param {number} v - another vector.
-	 * @return {number} The angle between them.
+	 * @param {Vec2} v - another vector.
+	 * @return {number} The angle between them (in radians).
 	 */
 	angle(v) {
 		return Math.acos(this.dot(v) / (this.length() * v.length()));
 	}
 	/**
 	 * Calculate the squared distance between two point (i.e. vector).
-	 * @param {number} v - another point (vector).
+	 * @param {Vec2} v - another point (vector).
 	 * @return {number} The squared distance.
 	 */
 	distanceSqr(v) {
@@ -153,7 +169,7 @@ class Vec2 {
 	}
 	/**
 	 * Calculate the distance between two point (i.e. vector).
-	 * @param {number} v - another point (vector).
+	 * @param {Vec2} v - another point (vector).
 	 * @return {number} The distance between them.
 	 */
 	distance(v) {
@@ -192,16 +208,45 @@ class World {
 		this.timeStep = 1/60;
 		this.splitSteps = 2;
 		this.onTicks = [];
+		this.onSteps = [];
 		this.ticker = new Ticker();
 		this.getGravity = function(p) {
 			return new Vec2(0, 300);
 		};
 
-		option |= {};
-		for (var key in option) {
-			if (option.hasOwnProperty(key)
-				&& this.hasOwnProperty(key)) {
-				this[key] = option[key];
+		if (option) {
+			for (var key in option) {
+				if (option.hasOwnProperty(key)
+					&& this.hasOwnProperty(key)) {
+					this[key] = option[key];
+				}
+			}
+		}
+
+		this.onStep(this.bodiesStep.bind(this));
+		this.onTick(this.step.bind(this));
+	}
+
+	/**
+	 * Move the world with the bodies' step().
+	 * @param {number} dt - Time passed.
+	 */
+	bodiesStep(dt) {
+		dt /= this.splitSteps;
+		for (var k in this.bodies) {
+			var body = this.bodies[k];
+			body.step(dt);
+		}
+	}
+
+	/**
+	 * World step callback.
+	 * @param {number} dt - Time passed.
+	 */
+	step(dt) {
+		for (var t = 0; t < this.splitSteps; t++) {
+			for (var i in this.onSteps) {
+				this.onSteps[i](dt);
 			}
 		}
 	}
@@ -231,12 +276,6 @@ class World {
 	 * @param {number} dt - Time passed.
 	 */
 	tick(dt) {
-		for (var i = 0; i < this.splitSteps; i++) {
-			for (var k in this.bodies) {
-				var body = this.bodies[k];
-				body.tick(dt / this.splitSteps);
-			}
-		}
 		for (var i in this.onTicks) {
 			this.onTicks[i](dt);
 		}
@@ -252,11 +291,19 @@ class World {
 	}
 
 	/**
-	 * Set timer tick callback.
+	 * Set a timer tick callback.
 	 * @param {function} callback - Called on an timer tick().
 	 */
 	onTick(callback) {
 		this.onTicks.push(callback);
+	}
+
+	/**
+	 * Set a world step callback (i.e. this.splitSteps times per tick)
+	 * @param {function} callback - Called on each world step.
+	 */
+	onStep(callback) {
+		this.onSteps.push(callback);
 	}
 }
 
@@ -343,7 +390,60 @@ class Body {
 	}
 
 	/**
-	 * Apply an impulse on a specific point.
+	 * Apply a linear constraint on a specific point on object.
+	 * Will make the object velocity.dot(n) = 0 at that point.
+	 * @param {Vec2} point - the point of static.
+	 * @param {Vec2} n - the constraint line's normal.
+	 * @param {boolean} side - whether to constraint only the n directed side.
+	 * @param {number} k - the bounceness, default to 0.
+	 * @returns {boolean} true if impulse was applied.
+	 */
+	applyLinearConstraint(point, n, side, k) {
+		// w += rA^I / J
+		// v += I / M
+		// what we want is:
+		// rA^n * w + v.n = 0
+		// i.e.:
+		// rA^n * (w + rA^I / J) + (v + I / M).n == 0
+		// rA^n * rA^I / J + I.n / M == -(rA^n * w + v.n)
+		// supp I = |I| n
+		// (rA^n)**2 |I| / J + |I| / M == -(rA^n * w + v.n)
+		// [(rA^n)**2 / J + 1 / M] |I| == -(rA^n * w + v.n)
+		// |I| == -(rA^n * w + v.n) / [(rA^n)**2 / J + 1 / M]
+		// throughts above all by original
+		// k=0: full sticky, k=1: full bounce, must 0<=k<=1
+		var rsca = -(1 + (k||0)) / this.getSCAAt(point, n);
+		var imp = this.getVelocityAt(point).dot(n) * rsca;
+		if (side && imp < 0)
+			return false;
+		var impulse = n.clone().multiply(imp);
+		this.applyImpulse(impulse, point);
+		this.constraintNormal = n;
+		return true;
+	}
+
+	/**
+	 * Apply a circular constraint on the center of the object.
+	 * Will make this point's distance to center constant (or '<=' when side=true).
+	 * @param {Vec2} center - the center of circular constraint.
+	 * @param {boolean} side - whether to constraint only to the inner side.
+	 * @param {number} k - the bounceness, default to 0.
+	 * @returns {boolean} true if impulse was applied.
+	 */
+	applyCenteredCircularConstraint(center, side, k)
+	{
+		var n = center.clone().sub(this.position).normalize();
+		return this.applyLinearConstraint(this.position, n, side, k);
+	}
+
+	fixCenteredCircularConstraint(center, distance)
+	{
+		var d = center.clone().sub(this.position);
+		this.position.add(d.multiply(1 - distance / d.length()));
+	}
+
+	/**
+	 * Apply an impulse on a specific point on object.
 	 * @param {Vec2} impulse - the impulse vector.
 	 * @param {Vec2} point - the point it acts.
 	 */
@@ -369,8 +469,14 @@ class Body {
 	}
 	
 	intergrateVelocity(dt) {
-		if (this.invMass)
-			this.velocity.add(this.getGravity(this).multiply(dt));
+		if (this.invMass) {
+			var g = this.getGravity(this);
+			/*if (this.constraintNormal) {
+				var p = g.projected(this.constraintNormal);
+				this.constraintNormal = undefined;
+			}*/
+			this.velocity.add(g.multiply(dt));
+		}
 	}
 	
 	intergratePosition(dt) {
@@ -382,13 +488,13 @@ class Body {
 	}
 
 	/**
-	 * Timer tick callback.
+	 * Time step callback.
 	 * @param {number} dt - Time passed.
 	 */
-	tick(dt) {
-		this.intergrateVelocity(dt);
+	step(dt) {
 		this.intergratePosition(dt);
 		this.intergrateRotation(dt);
+		this.intergrateVelocity(dt);
 	}
 }
 
@@ -484,8 +590,9 @@ exports.Collide = {
 	 * Collide  Vertiable  vs  Normable & Static Body
 	 * @param {Body} a - hasAttr getVertices
 	 * @param {Body} b - hasAttr getNormalAt, and static
+	 * @param {number} k - the bounceness between two bodies
 	 */
-	react_Vertiable_NormableStatic: function(a, b)
+	react_Vertiable_NormableStatic: function(a, b, k)
 	{
 		var vertices = a.getVertices();
 		for (var i in vertices) {
@@ -493,25 +600,7 @@ exports.Collide = {
 			var n = b.getNormalAt(point);
 			if (n === undefined)
 				continue;
-			// w += rA^I / J
-			// v += I / M
-			// what we want is:
-			// rA^n * w + v.n = 0
-			// i.e.:
-			// rA^n * (w + rA^I / J) + (v + I / M).n == 0
-			// rA^n * rA^I / J + I.n / M == -(rA^n * w + v.n)
-			// supp I = |I| n
-			// (rA^n)**2 |I| / J + |I| / M == -(rA^n * w + v.n)
-			// [(rA^n)**2 / J + 1 / M] |I| == -(rA^n * w + v.n)
-			// |I| == -(rA^n * w + v.n) / [(rA^n)**2 / J + 1 / M]
-			// throughts above all by original
-			var k = 0.9; // 0: full sticky, 1: full bounce, must 0<=k<=1
-			var rsca = -(1+k) / a.getSCAAt(point, n);
-			var imp = a.getVelocityAt(point).dot(n) * rsca;
-			if (imp < 0)
-				continue;
-			var impulse = n.multiply(imp);
-			a.applyImpulse(impulse, point);
+			a.applyLinearConstraint(point, n, true, k);
 		}
 	},
 };
@@ -533,6 +622,22 @@ class Render {
 	 */
 	clear() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	/**
+	 * Draw a line.
+	 * @param {number} x0 - The begin x cooridate of center.
+	 * @param {number} y0 - The begin y cooridate of center.
+	 * @param {number} x1 - The end x cooridate of center.
+	 * @param {number} y1 - The end y cooridate of center.
+	 */
+	line(x0, y0, x1, y1) {
+		this.ctx.save();
+		this.ctx.beginPath();
+		this.ctx.moveTo(x0, y0);
+		this.ctx.lineTo(x1, y1);
+		this.ctx.stroke();
+		this.ctx.restore();
 	}
 
 	/**
